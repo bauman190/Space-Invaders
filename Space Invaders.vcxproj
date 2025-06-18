@@ -19,7 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Entity\Entity.cpp" />
+    <ClCompile Include="src\Entity\Player.cpp" />
+    <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Entity\Entity.h" />
+    <ClInclude Include="src\Entity\Player.h" />
+    <ClInclude Include="src\Game\Game.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -125,6 +133,9 @@
       <AdditionalDependencies>raylib.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(SolutionDir)scripts\copy_res.bat" "$(SolutionDir)" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
