@@ -6,9 +6,9 @@ const int screenWidth = 800;
 const int screenHeight = 450;
 
 
-static void draw(Player player);
+static void draw(Entity::Player player);
 
-void input(Player& player);
+void input(Entity::Player& player);
 
 void game::runGame()
 {
@@ -16,7 +16,7 @@ void game::runGame()
 
     Rectangle hitBox = { screenWidth / 2, screenHeight * 0.90, 20, 20 };
 
-    Player player = Player(hitBox, 10, 100);
+    Entity::Player player = Entity::Player(hitBox, 10, 300);
 
     while (!WindowShouldClose())
     {
@@ -29,7 +29,7 @@ void game::runGame()
     CloseWindow();
 }
 
-void input(Player& player)
+void input(Entity::Player& player)
 {
     if (IsKeyDown(KEY_A) && player.getHitBox().x > 0)
     {
@@ -42,7 +42,7 @@ void input(Player& player)
 }
 
 
-static void draw(Player player)
+static void draw(Entity::Player player)
 {
     BeginDrawing();
 

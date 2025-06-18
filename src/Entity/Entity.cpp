@@ -1,16 +1,16 @@
 #include "Entity.h"
 
 
-Entity::Entity(Rectangle hitBox)
+Entity::Entity::Entity(Rectangle hitBox)
 {
 	this->hitBox = hitBox;
 }
 
-Entity::~Entity()
+Entity::Entity::~Entity()
 {
 
 }
-Rectangle Entity::getHitBox()
+Rectangle Entity::Entity::getHitBox()
 {
 	return hitBox;
 }

@@ -1,17 +1,19 @@
 #pragma once
 #include "raylib.h"
 
-
-class Entity
+namespace Entity
 {
-protected:
-	Rectangle hitBox;
+	class Entity
+	{
+	protected:
+		Rectangle hitBox;
 
-public:
-	Entity(Rectangle hitBox);
-	virtual ~Entity();
-	virtual void draw() = 0;
-	Rectangle getHitBox();
-	
-};
+	public:
+		Entity(Rectangle hitBox);
+		virtual ~Entity();
+		virtual void draw() = 0;
+		Rectangle getHitBox();
+
+	};
+}
 
