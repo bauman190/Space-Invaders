@@ -1,9 +1,13 @@
 #include "raylib.h"
 #include "Entitys/Player.h"
 #include "Entitys/Enemy.h"
+#include "Entitys/Bullet.h"
+#include "vector"
 
  int screenWidth = 800;
  int screenHeight = 600;
+
+ std::vector<Entity::Bullet> bullets;
 
 int main()
 {
@@ -19,6 +23,11 @@ int main()
     {
         Entity::updatePlayer(player);
         Entity::updateEnemy(enemy);
+        
+        for (size_t i = 0; i < bullets.size(); i++)
+        {
+            Entity::updateBullet(bullets[i]);
+        }
 
         BeginDrawing();
 
@@ -26,6 +35,11 @@ int main()
 
         Entity::drawPlayer(player);
         Entity::drawEnemy(enemy);
+
+        for (size_t i = 0; i < bullets.size(); i++)
+        {
+            Entity::drawBullet(bullets[i]);
+        }
 
         EndDrawing();
        

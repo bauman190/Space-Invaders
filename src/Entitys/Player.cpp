@@ -1,21 +1,34 @@
 #include "Player.h"
 #include "raylib.h"
+#include "Bullet.h"
+#include "vector"
 
 extern int screenWidth;
 extern int screenHeight;
+extern std::vector<Entity::Bullet> bullets;
 
 static void moveRight(Entity::Player& player)
 {
 	player.hitBox.x += player.speed * GetFrameTime();
 }
+
 static void moveLeft(Entity::Player& player)
 {
 	player.hitBox.x -= player.speed * GetFrameTime();
 }
+
+static void shoot(Entity::Player player)
+{
+	float x = player.hitBox.x + player.hitBox.width / 2;
+	float y = player.hitBox.y;
+	bullets.push_back(Entity::initBullet(x, y));
+}
+
 void Entity::drawPlayer(Player player)
 {
 	DrawRectangle(static_cast<int>(player.hitBox.x), static_cast<int>(player.hitBox.y), static_cast<int>(player.hitBox.width), static_cast<int>(player.hitBox.height), BLUE);
 }
+
 void Entity::updatePlayer(Player& player)
 {
 	if (IsKeyDown(KEY_D) && player.hitBox.x + player.hitBox.width < screenWidth)
@@ -26,7 +39,12 @@ void Entity::updatePlayer(Player& player)
 	{
 		moveLeft(player);
 	}
+	if (IsKeyPressed(KEY_SPACE))
+	{
+		shoot(player);
+	}
 }
+
 void Entity::initPlayer(Player& player)
 {
 	float width = screenWidth * 0.05;

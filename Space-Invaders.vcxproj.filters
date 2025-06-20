@@ -8,6 +8,9 @@
     <ClCompile Include="src\Entitys\Enemy.cpp">
       <Filter>Entitys</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entitys\Bullet.cpp">
+      <Filter>Entitys</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entitys">
@@ -19,6 +22,9 @@
       <Filter>Entitys</Filter>
     </ClInclude>
     <ClInclude Include="src\Entitys\Enemy.h">
+      <Filter>Entitys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entitys\Bullet.h">
       <Filter>Entitys</Filter>
     </ClInclude>
   </ItemGroup>
