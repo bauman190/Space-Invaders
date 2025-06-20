@@ -19,3 +19,13 @@ void Entity::initEnemy(Enemy& enemy, float x, float y)
 	enemy.hitBox = { x, y, width, height };
 	enemy.speed = 50.0f;
 }
+
+void Entity::enemyChangeDir(Enemy& enemy)
+{
+	enemy.speed *= -1.0f;
+}
+
+void Entity::enemyGoDown(Enemy& enemy)
+{
+	enemy.hitBox.y += enemy.hitBox.height;
+}

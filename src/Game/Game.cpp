@@ -30,6 +30,12 @@ void Game::runGame()
             Entity::updateBullet(bullets[i]);
         }
 
+        if (enemy.hitBox.x + enemy.hitBox.width > screenWidth || enemy.hitBox.x < 0)
+        {
+            Entity::enemyChangeDir(enemy);
+            Entity::enemyGoDown(enemy);
+        }
+
         BeginDrawing();
 
         ClearBackground(BLACK);

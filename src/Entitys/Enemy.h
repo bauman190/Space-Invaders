@@ -11,4 +11,6 @@ namespace Entity
 	void drawEnemy(Enemy enemy);
 	void updateEnemy(Enemy& enemy);
 	void initEnemy(Enemy& enemy, float x, float y);
+	void enemyChangeDir(Enemy& enemy);
+	void enemyGoDown(Enemy& enemy);
 }
