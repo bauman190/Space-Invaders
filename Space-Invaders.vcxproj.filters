@@ -2,5 +2,18 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Entitys\Player.cpp">
+      <Filter>Entitys</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Entitys">
+      <UniqueIdentifier>{1f3bfa40-9889-4615-8ab3-7f4be61d0ee2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Entitys\Player.h">
+      <Filter>Entitys</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

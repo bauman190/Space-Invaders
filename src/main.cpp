@@ -1,23 +1,26 @@
 #include "raylib.h"
+#include "Entitys/Player.h"
 
+ int screenWidth = 800;
+ int screenHeight = 600;
 
 int main()
 {
-    
-    const int screenWidth = 800;
-    const int screenHeight = 600;
 
     InitWindow(screenWidth, screenHeight, "Space Invaders");
 
+    Entity::Player player;
+    Entity::initPlayer(player);
     
     while (!WindowShouldClose())    
     {
-        
+        Entity::updatePlayer(player);
+
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground(BLACK);
 
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        Entity::drawPlayer(player);
 
         EndDrawing();
        
