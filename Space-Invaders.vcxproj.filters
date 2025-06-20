@@ -5,6 +5,9 @@
     <ClCompile Include="src\Entitys\Player.cpp">
       <Filter>Entitys</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entitys\Enemy.cpp">
+      <Filter>Entitys</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entitys">
@@ -13,6 +16,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Entitys\Player.h">
+      <Filter>Entitys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entitys\Enemy.h">
       <Filter>Entitys</Filter>
     </ClInclude>
   </ItemGroup>

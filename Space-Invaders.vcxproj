@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Entitys\Enemy.cpp" />
     <ClCompile Include="src\Entitys\Player.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Entitys\Enemy.h" />
     <ClInclude Include="src\Entitys\Player.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
