@@ -138,7 +138,7 @@ static void changeAllEnemysDir()
     }
 }
 
-#include <iostream>
+
 static void handleColEnemyWall(const float enemyWallCooldownTime, float& enemyWallCooldown)
 {
     if (enemyWallCooldown > 0.0f)
@@ -154,7 +154,6 @@ static void handleColEnemyWall(const float enemyWallCooldownTime, float& enemyWa
     {
         if (enemys[i].hitBox.x + enemys[i].hitBox.width > screenWidth || enemys[i].hitBox.x < 0)
         {
-            std::cout << "Colisión detectada - Cambiando dirección y bajando\n";
             enemyWallCooldown = enemyWallCooldownTime;
             changeAllEnemysDir();
             break;
