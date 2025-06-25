@@ -14,7 +14,7 @@ void Entity::updateEnemy(Enemy& enemy)
 }
 void Entity::initEnemy(Enemy& enemy, float x, float y)
 {
-	float width = screenWidth * 0.05;
+	float width = screenWidth * 0.03;
 	float height = width;
 	enemy.hitBox = { x, y, width, height };
 	enemy.speed = 50.0f;

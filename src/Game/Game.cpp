@@ -9,6 +9,7 @@ int screenWidth = 800;
 int screenHeight = 600;
 
 std::vector<Entity::Bullet> bullets;
+std::vector <Entity::Enemy> enemys;
 
 static bool collisionRecRec(Rectangle r1, Rectangle r2)
 {
@@ -18,53 +19,50 @@ static bool collisionRecRec(Rectangle r1, Rectangle r2)
         r1.y + r1.height > r2.y);
 }
 
+static void creatEnemys();
+
+static void handleColEnemyWall(const float enemyWallCooldownTime, float& enemyWallCooldown);
+
 void Game::runGame()
 {
 
     InitWindow(screenWidth, screenHeight, "Space Invaders");
 
     Entity::Player player;
-    std::vector <Entity::Enemy> enemys;
     Entity::initPlayer(player);
+    float enemyWallCooldown = 0.0f;
+    const float enemyWallCooldownTime = 1.0f;
 
-    Entity::Enemy enemy;
-
-    Entity::initEnemy(enemy, screenWidth / 2, screenHeight * 0.1f);
-
-    enemys.push_back(enemy);
+    creatEnemys();
 
     while (!WindowShouldClose())
     {
         Entity::updatePlayer(player);
 
-        if (!enemys.empty())
+        for (size_t i = 0; i < enemys.size(); i++)
         {
-            Entity::updateEnemy(enemys[0]);
-        }
+            Entity::updateEnemy(enemys[i]);
+        }              
 
         for (size_t i = 0; i < bullets.size(); i++)
         {
             Entity::updateBullet(bullets[i]);
         }
 
-        if (!enemys.empty())
-        {
-            if (enemys[0].hitBox.x + enemys[0].hitBox.width > screenWidth || enemys[0].hitBox.x < 0)
-            {
-                Entity::enemyChangeDir(enemys[0]);
-                Entity::enemyGoDown(enemys[0]);
-            }
-        }
+        handleColEnemyWall(enemyWallCooldownTime, enemyWallCooldown);
 
-        for (size_t i = 0; i < bullets.size(); i++)
+        if (!enemys.empty() && !bullets.empty())
         {
-            if (!enemys.empty())
+            for (int i = bullets.size() - 1; i >= 0; i--)
             {
-                if (collisionRecRec(enemys[0].hitBox, bullets[i].hitBox))
+                for (int j = enemys.size() - 1; j >= 0; j--)
                 {
-                    enemys.erase(enemys.begin());
-                    bullets.erase(bullets.begin() + i);
-                    i--;
+                    if (collisionRecRec(enemys[j].hitBox, bullets[i].hitBox))
+                    {
+                        enemys.erase(enemys.begin() + j);
+                        bullets.erase(bullets.begin() + i);
+                        break;
+                    }
                 }
             }
         }
@@ -74,11 +72,12 @@ void Game::runGame()
         ClearBackground(BLACK);
 
         Entity::drawPlayer(player);
-
-        if (!enemys.empty())
+  
+        for (size_t i = 0; i < enemys.size(); i++)
         {
-            Entity::drawEnemy(enemys[0]);
+            Entity::drawEnemy(enemys[i]);
         }
+            
 
         for (size_t i = 0; i < bullets.size(); i++)
         {
@@ -86,10 +85,72 @@ void Game::runGame()
         }
 
         EndDrawing();
-
     }
-
 
     CloseWindow();
 
+}
+
+static void creatEnemys()
+{
+    const int rows = 5;
+    const int columns = 15;
+
+    Entity::Enemy newEnemy;
+
+    Entity::initEnemy(newEnemy, screenWidth * 0.2, screenHeight * 0.1f);
+
+    enemys.push_back(newEnemy);
+
+   float initialX = newEnemy.hitBox.x;
+
+    for (size_t j = 0; j < rows; j++)
+    {
+        newEnemy.hitBox.x = initialX;
+        if (j >= 1)
+        {
+            newEnemy.hitBox.y += newEnemy.hitBox.height + 10;
+        }
+
+        enemys.push_back(newEnemy);
+
+        for (int i = 1; i < columns; i++)
+        {
+            newEnemy.hitBox.x += enemys[i - 1].hitBox.width + 10;
+            enemys.push_back(newEnemy);
+        }
+    }
+}
+
+static void changeAllEnemysDir()
+{
+    for (size_t i = 0; i < enemys.size(); i++)
+    {
+        Entity::enemyChangeDir(enemys[i]);
+        Entity::enemyGoDown(enemys[i]);
+    }
+}
+
+#include <iostream>
+static void handleColEnemyWall(const float enemyWallCooldownTime, float& enemyWallCooldown)
+{
+    if (enemyWallCooldown > 0.0f)
+    {
+        enemyWallCooldown -= GetFrameTime();
+    }
+    if (enemyWallCooldown > 0.0f)
+    {
+        return;
+    }
+
+    for (size_t i = 0; i < enemys.size(); i++)
+    {
+        if (enemys[i].hitBox.x + enemys[i].hitBox.width > screenWidth || enemys[i].hitBox.x < 0)
+        {
+            std::cout << "Colisión detectada - Cambiando dirección y bajando\n";
+            enemyWallCooldown = enemyWallCooldownTime;
+            changeAllEnemysDir();
+            break;
+        }
+    }  
 }

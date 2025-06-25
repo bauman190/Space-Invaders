@@ -13,5 +13,4 @@ namespace Entity
 	void initEnemy(Enemy& enemy, float x, float y);
 	void enemyChangeDir(Enemy& enemy);
 	void enemyGoDown(Enemy& enemy);
-
 }
