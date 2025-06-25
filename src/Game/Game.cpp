@@ -67,6 +67,13 @@ void Game::runGame()
             }
         }
 
+        for (int i = bullets.size() - 1; i >= 0; i--)
+        {
+            if (bullets[i].hitBox.y <= 0)
+            {
+                bullets.erase(bullets.begin() + i);
+            }
+        }
         BeginDrawing();
 
         ClearBackground(BLACK);
