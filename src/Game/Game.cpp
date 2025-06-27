@@ -166,9 +166,19 @@ static void updateBullets()
     }
 }
 
+static void handleEnemyRespawn()
+{  
+    if (enemys.empty())
+    {
+        bullets.clear();
+        creatEnemys(); 
+    }
+}
+
 static void updateGamePlay(Entity::Player& player, const float enemyWallCooldownTime, float& enemyWallCooldown)
 {
-
+    
+    handleEnemyRespawn();   
     Entity::updatePlayer(player);
     updateEnemys();
     updateBullets();
