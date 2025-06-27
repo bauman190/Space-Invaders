@@ -80,8 +80,6 @@ static void creatEnemys()
             enemys.push_back(newEnemy);
         }
 
-        
-
         for (int i = 1; i < columns; i++)
         {
             newEnemy.hitBox.x += enemys[i - 1].hitBox.width + 10;
