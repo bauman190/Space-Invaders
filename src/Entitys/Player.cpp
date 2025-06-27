@@ -58,3 +58,8 @@ void Entity::initPlayer(Player& player)
 	player.speed = 300.0f;
 
 }
+
+void Entity::increasScore(Player& player)
+{
+	player.score++;
+}

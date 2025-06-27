@@ -77,9 +77,10 @@ static void creatEnemys()
         if (j >= 1)
         {
             newEnemy.hitBox.y += newEnemy.hitBox.height + 10;
+            enemys.push_back(newEnemy);
         }
 
-        enemys.push_back(newEnemy);
+        
 
         for (int i = 1; i < columns; i++)
         {
@@ -120,7 +121,7 @@ static void handleColEnemyWall(const float enemyWallCooldownTime, float& enemyWa
     }  
 }
 
-static void collisionEneyBullet()
+static void collisionEneyBullet(Entity::Player& player)
 {
     if (!enemys.empty() && !bullets.empty())
     {
@@ -132,6 +133,7 @@ static void collisionEneyBullet()
                 {
                     enemys.erase(enemys.begin() + j);
                     bullets.erase(bullets.begin() + i);
+                    Entity::increasScore(player);
                     break;
                 }
             }
@@ -173,7 +175,7 @@ static void updateGamePlay(Entity::Player& player, const float enemyWallCooldown
     updateEnemys();
     updateBullets();
     handleColEnemyWall(enemyWallCooldownTime, enemyWallCooldown);
-    collisionEneyBullet();
+    collisionEneyBullet(player);
     erasBulletsOutOfMap();
 
 }
@@ -192,6 +194,8 @@ static void drawGamePlay(Entity::Player& player)
     {
         Entity::drawBullet(bullets[i]);
     }
+
+    DrawText(TextFormat("Score: %01i", player.score), 0, 0, 20, BLUE);
 }
 
 static void initGamePlay(Entity::Player& player)
