@@ -23,74 +23,34 @@ static void creatEnemys();
 
 static void handleColEnemyWall(const float enemyWallCooldownTime, float& enemyWallCooldown);
 
+static void updateGamePlay(Entity::Player& player, const float enemyWallCooldownTime, float& enemyWallCooldown);
+
+static void drawGamePlay(Entity::Player& player);
+
+static void initGamePlay(Entity::Player& player);
+
 void Game::runGame()
 {
 
     InitWindow(screenWidth, screenHeight, "Space Invaders");
 
     Entity::Player player;
-    Entity::initPlayer(player);
+
+    initGamePlay(player);
+
     float enemyWallCooldown = 0.0f;
     const float enemyWallCooldownTime = 1.0f;
 
-    creatEnemys();
-
     while (!WindowShouldClose())
     {
-        Entity::updatePlayer(player);
-
-        for (size_t i = 0; i < enemys.size(); i++)
-        {
-            Entity::updateEnemy(enemys[i]);
-        }              
-
-        for (size_t i = 0; i < bullets.size(); i++)
-        {
-            Entity::updateBullet(bullets[i]);
-        }
-
-        handleColEnemyWall(enemyWallCooldownTime, enemyWallCooldown);
-
-        if (!enemys.empty() && !bullets.empty())
-        {
-            for (int i = bullets.size() - 1; i >= 0; i--)
-            {
-                for (int j = enemys.size() - 1; j >= 0; j--)
-                {
-                    if (collisionRecRec(enemys[j].hitBox, bullets[i].hitBox))
-                    {
-                        enemys.erase(enemys.begin() + j);
-                        bullets.erase(bullets.begin() + i);
-                        break;
-                    }
-                }
-            }
-        }
-
-        for (int i = bullets.size() - 1; i >= 0; i--)
-        {
-            if (bullets[i].hitBox.y <= 0)
-            {
-                bullets.erase(bullets.begin() + i);
-            }
-        }
+        updateGamePlay(player, enemyWallCooldownTime, enemyWallCooldown);
+        
         BeginDrawing();
 
         ClearBackground(BLACK);
 
-        Entity::drawPlayer(player);
-  
-        for (size_t i = 0; i < enemys.size(); i++)
-        {
-            Entity::drawEnemy(enemys[i]);
-        }
-            
-
-        for (size_t i = 0; i < bullets.size(); i++)
-        {
-            Entity::drawBullet(bullets[i]);
-        }
-
+        drawGamePlay(player);
+    
         EndDrawing();
     }
 
@@ -138,7 +98,6 @@ static void changeAllEnemysDir()
     }
 }
 
-
 static void handleColEnemyWall(const float enemyWallCooldownTime, float& enemyWallCooldown)
 {
     if (enemyWallCooldown > 0.0f)
@@ -159,4 +118,85 @@ static void handleColEnemyWall(const float enemyWallCooldownTime, float& enemyWa
             break;
         }
     }  
+}
+
+static void collisionEneyBullet()
+{
+    if (!enemys.empty() && !bullets.empty())
+    {
+        for (int i = bullets.size() - 1; i >= 0; i--)
+        {
+            for (int j = enemys.size() - 1; j >= 0; j--)
+            {
+                if (collisionRecRec(enemys[j].hitBox, bullets[i].hitBox))
+                {
+                    enemys.erase(enemys.begin() + j);
+                    bullets.erase(bullets.begin() + i);
+                    break;
+                }
+            }
+        }
+    }
+}
+
+static void erasBulletsOutOfMap()
+{
+    for (int i = bullets.size() - 1; i >= 0; i--)
+    {
+        if (bullets[i].hitBox.y <= 0)
+        {
+            bullets.erase(bullets.begin() + i);
+        }
+    }
+}
+
+static void updateEnemys()
+{
+    for (size_t i = 0; i < enemys.size(); i++)
+    {
+        Entity::updateEnemy(enemys[i]);
+    }
+}
+
+static void updateBullets()
+{
+    for (size_t i = 0; i < bullets.size(); i++)
+    {
+        Entity::updateBullet(bullets[i]);
+    }
+}
+
+static void updateGamePlay(Entity::Player& player, const float enemyWallCooldownTime, float& enemyWallCooldown)
+{
+
+    Entity::updatePlayer(player);
+    updateEnemys();
+    updateBullets();
+    handleColEnemyWall(enemyWallCooldownTime, enemyWallCooldown);
+    collisionEneyBullet();
+    erasBulletsOutOfMap();
+
+}
+
+static void drawGamePlay(Entity::Player& player)
+{
+    Entity::drawPlayer(player);
+
+    for (size_t i = 0; i < enemys.size(); i++)
+    {
+        Entity::drawEnemy(enemys[i]);
+    }
+
+
+    for (size_t i = 0; i < bullets.size(); i++)
+    {
+        Entity::drawBullet(bullets[i]);
+    }
+}
+
+static void initGamePlay(Entity::Player& player)
+{
+    Entity::initPlayer(player);
+
+    creatEnemys();
 }
