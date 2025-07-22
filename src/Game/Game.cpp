@@ -10,6 +10,7 @@ int screenHeight = 600;
 
 std::vector<Entity::Bullet> bullets;
 std::vector <Entity::Enemy> enemys;
+std::vector<Entity::Bullet> enemysBullets;
 
 static bool collisionRecRec(Rectangle r1, Rectangle r2)
 {
@@ -23,11 +24,13 @@ static void creatEnemys();
 
 static void handleColEnemyWall(const float enemyWallCooldownTime, float& enemyWallCooldown);
 
-static void updateGamePlay(Entity::Player& player, const float enemyWallCooldownTime, float& enemyWallCooldown);
+static void updateGamePlay(Entity::Player& player, const float enemyWallCooldownTime, float& enemyWallCooldown, float& enemyShootTimer);
 
 static void drawGamePlay(Entity::Player& player);
 
 static void initGamePlay(Entity::Player& player);
+
+static void handleEnemyShoot(float& enemyShootTimer);
 
 void Game::runGame()
 {
@@ -40,10 +43,11 @@ void Game::runGame()
 
     float enemyWallCooldown = 0.0f;
     const float enemyWallCooldownTime = 1.0f;
+    float enemyShootTimer = 0.0f;
 
     while (!WindowShouldClose())
     {
-        updateGamePlay(player, enemyWallCooldownTime, enemyWallCooldown);
+        updateGamePlay(player, enemyWallCooldownTime, enemyWallCooldown, enemyShootTimer);
         
         BeginDrawing();
 
@@ -164,6 +168,11 @@ static void updateBullets()
     {
         Entity::updateBullet(bullets[i]);
     }
+
+    for (size_t i = 0; i < enemysBullets.size(); i++)
+    {
+        Entity::updateBullet(enemysBullets[i]);
+    }
 }
 
 static void handleEnemyRespawn()
@@ -175,15 +184,16 @@ static void handleEnemyRespawn()
     }
 }
 
-static void updateGamePlay(Entity::Player& player, const float enemyWallCooldownTime, float& enemyWallCooldown)
+static void updateGamePlay(Entity::Player& player, const float enemyWallCooldownTime, float& enemyWallCooldown, float& enemyShootTimer)
 {
-    
+
     handleEnemyRespawn();   
     Entity::updatePlayer(player);
     updateEnemys();
     updateBullets();
     handleColEnemyWall(enemyWallCooldownTime, enemyWallCooldown);
     collisionEneyBullet(player);
+    handleEnemyShoot(enemyShootTimer);
     erasBulletsOutOfMap();
 
 }
@@ -197,10 +207,14 @@ static void drawGamePlay(Entity::Player& player)
         Entity::drawEnemy(enemys[i]);
     }
 
-
     for (size_t i = 0; i < bullets.size(); i++)
     {
         Entity::drawBullet(bullets[i]);
+    }
+
+    for (size_t i = 0; i < enemysBullets.size(); i++)
+    {
+        Entity::drawBullet(enemysBullets[i]);
     }
 
     DrawText(TextFormat("Score: %01i", player.score), 0, 0, 20, BLUE);
@@ -211,4 +225,21 @@ static void initGamePlay(Entity::Player& player)
     Entity::initPlayer(player);
 
     creatEnemys();
+}
+
+static void handleEnemyShoot(float& enemyShootTimer)
+{
+    const float enemyShootCooldown = 3.0f;
+
+    enemyShootTimer += GetFrameTime();
+
+    if (enemyShootTimer >= enemyShootCooldown)
+    {
+        if (!enemys.empty())
+        {
+            Entity::enemyShoot(enemys[rand() % enemys.size()]);
+            enemyShootTimer = 0;
+        }
+        enemyShootTimer = 0.0f;
+    }
 }

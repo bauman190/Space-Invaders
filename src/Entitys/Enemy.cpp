@@ -1,8 +1,10 @@
 #include "Enemy.h"
+#include "vector"
+#include "Bullet.h"
 
 extern int screenWidth;
 extern int screenHeight;
-
+extern std::vector<Entity::Bullet> enemysBullets;
 
 void Entity::drawEnemy(Enemy enemy)
 {
@@ -28,4 +30,13 @@ void Entity::enemyChangeDir(Enemy& enemy)
 void Entity::enemyGoDown(Enemy& enemy)
 {
 	enemy.hitBox.y += enemy.hitBox.height;
+}
+
+void Entity::enemyShoot(Enemy enemy)
+{
+	float x = enemy.hitBox.x + enemy.hitBox.width / 2;
+	float y = enemy.hitBox.y + enemy.hitBox.height;
+	Entity::Bullet newBullet = Entity::initBullet(x, y);
+	newBullet.speed *= -1.0f;
+	enemysBullets.push_back(newBullet);
 }
