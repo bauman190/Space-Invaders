@@ -14,6 +14,9 @@
     <ClCompile Include="src\Game\Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\UI\button.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entitys">
@@ -21,6 +24,9 @@
     </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{30b5f83b-97b0-485a-9794-b5a517b661f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{ab5d65a3-8d0b-48ef-a09b-5bb020bc9b0f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +41,9 @@
     </ClInclude>
     <ClInclude Include="src\Game\Game.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\button.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
