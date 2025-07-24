@@ -32,6 +32,8 @@ static void initGamePlay(Entity::Player& player);
 
 static void handleEnemyShoot(float& enemyShootTimer);
 
+static void collisionPlayerBullet(Entity::Player& player);
+
 void Game::runGame()
 {
 
@@ -193,6 +195,7 @@ static void updateGamePlay(Entity::Player& player, const float enemyWallCooldown
     updateBullets();
     handleColEnemyWall(enemyWallCooldownTime, enemyWallCooldown);
     collisionEneyBullet(player);
+    collisionPlayerBullet(player);
     handleEnemyShoot(enemyShootTimer);
     erasBulletsOutOfMap();
 
@@ -218,6 +221,7 @@ static void drawGamePlay(Entity::Player& player)
     }
 
     DrawText(TextFormat("Score: %01i", player.score), 0, 0, 20, BLUE);
+    DrawText(TextFormat("Lives: %01i", player.HP), 0, 20, 20, BLUE);
 }
 
 static void initGamePlay(Entity::Player& player)
@@ -241,5 +245,22 @@ static void handleEnemyShoot(float& enemyShootTimer)
             enemyShootTimer = 0;
         }
         enemyShootTimer = 0.0f;
+    }
+}
+
+static void collisionPlayerBullet(Entity::Player& player)
+{
+    if (!enemysBullets.empty())
+    {
+        for (int i = enemysBullets.size() - 1; i >= 0; i--)
+        {
+            if (collisionRecRec(enemysBullets[i].hitBox, player.hitBox))
+            {
+                enemysBullets.erase(enemysBullets.begin() + i);
+                player.HP--;
+                break;
+            }
+
+        }
     }
 }
