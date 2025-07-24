@@ -24,6 +24,7 @@
     <ClCompile Include="src\Entitys\Player.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Scenes\gameplay.cpp" />
     <ClCompile Include="src\UI\button.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -31,6 +32,8 @@
     <ClInclude Include="src\Entitys\Enemy.h" />
     <ClInclude Include="src\Entitys\Player.h" />
     <ClInclude Include="src\Game\Game.h" />
+    <ClInclude Include="src\Scenes\gameplay.h" />
+    <ClInclude Include="src\Scenes\screen_options.h" />
     <ClInclude Include="src\UI\button.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

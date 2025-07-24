@@ -17,6 +17,9 @@
     <ClCompile Include="src\UI\button.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scenes\gameplay.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entitys">
@@ -27,6 +30,9 @@
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{ab5d65a3-8d0b-48ef-a09b-5bb020bc9b0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{2c572ead-d2b4-409c-9247-6e7e3f8b437c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +50,12 @@
     </ClInclude>
     <ClInclude Include="src\UI\button.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\screen_options.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\gameplay.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
