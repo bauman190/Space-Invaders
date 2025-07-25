@@ -1,5 +1,6 @@
 #include "Bullet.h"
 
+#include "raylib.h"
 
 
 void Entity::drawBullet(Bullet bullet)

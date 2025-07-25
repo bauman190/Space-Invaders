@@ -32,6 +32,7 @@
     <ClInclude Include="src\Entitys\Enemy.h" />
     <ClInclude Include="src\Entitys\Player.h" />
     <ClInclude Include="src\Game\Game.h" />
+    <ClInclude Include="src\Game\gameManager.h" />
     <ClInclude Include="src\Scenes\gameplay.h" />
     <ClInclude Include="src\Scenes\screen_options.h" />
     <ClInclude Include="src\UI\button.h" />

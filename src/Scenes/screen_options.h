@@ -7,14 +7,8 @@ namespace scenes
         MainMenu,
         Gameplay,
         HowToPlay,
-        Credits
-    };
-
-
-    enum inGameScene
-    {
-        Game,
+        Credits,
         Pause,
-        GameOver,
+        GameOver
     };
 }

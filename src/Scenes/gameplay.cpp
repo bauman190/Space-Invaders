@@ -6,17 +6,9 @@
 #include "Entitys/Enemy.h"
 #include "Entitys/Bullet.h"
 #include "vector"
-#include "screen_options.h"
+#include "Game/gameManager.h"
 
-extern int screenWidth;
-extern int screenHeight;
-
-//scenes::inGameScene inGameStatus = scenes::Game;
-
-std::vector<Entity::Bullet> bullets;
-std::vector <Entity::Enemy> enemys;
-std::vector<Entity::Bullet> enemysBullets;
-Entity::Player player;
+extern GM::gameManager gamemanager;
 
 static bool collisionRecRec(Rectangle r1, Rectangle r2)
 {
@@ -45,9 +37,9 @@ static void creatEnemys()
 
     Entity::Enemy newEnemy;
 
-    Entity::initEnemy(newEnemy, screenWidth * 0.2, screenHeight * 0.1f);
+    Entity::initEnemy(newEnemy, gamemanager.screenWidth * 0.2, gamemanager.screenHeight * 0.1f);
 
-    enemys.push_back(newEnemy);
+    gamemanager.enemys.push_back(newEnemy);
 
     float initialX = newEnemy.hitBox.x;
 
@@ -57,23 +49,23 @@ static void creatEnemys()
         if (j >= 1)
         {
             newEnemy.hitBox.y += newEnemy.hitBox.height + 10;
-            enemys.push_back(newEnemy);
+            gamemanager.enemys.push_back(newEnemy);
         }
 
         for (int i = 1; i < columns; i++)
         {
-            newEnemy.hitBox.x += enemys[i - 1].hitBox.width + 10;
-            enemys.push_back(newEnemy);
+            newEnemy.hitBox.x += gamemanager.enemys[i - 1].hitBox.width + 10;
+            gamemanager.enemys.push_back(newEnemy);
         }
     }
 }
 
 static void changeAllEnemysDir()
 {
-    for (size_t i = 0; i < enemys.size(); i++)
+    for (size_t i = 0; i < gamemanager.enemys.size(); i++)
     {
-        Entity::enemyChangeDir(enemys[i]);
-        Entity::enemyGoDown(enemys[i]);
+        Entity::enemyChangeDir(gamemanager.enemys[i]);
+        Entity::enemyGoDown(gamemanager.enemys[i]);
     }
 }
 
@@ -90,9 +82,9 @@ static void handleColEnemyWall(float& enemyWallCooldown)
         return;
     }
 
-    for (size_t i = 0; i < enemys.size(); i++)
+    for (size_t i = 0; i < gamemanager.enemys.size(); i++)
     {
-        if (enemys[i].hitBox.x + enemys[i].hitBox.width > screenWidth || enemys[i].hitBox.x < 0)
+        if (gamemanager.enemys[i].hitBox.x + gamemanager.enemys[i].hitBox.width > gamemanager.screenWidth || gamemanager.enemys[i].hitBox.x < 0)
         {
             enemyWallCooldown = enemyWallCooldownTime;
             changeAllEnemysDir();
@@ -103,17 +95,17 @@ static void handleColEnemyWall(float& enemyWallCooldown)
 
 static void collisionEnemyBullet()
 {
-    if (!enemys.empty() && !bullets.empty())
+    if (!gamemanager.enemys.empty() && !gamemanager.bullets.empty())
     {
-        for (int i = bullets.size() - 1; i >= 0; i--)
+        for (int i = gamemanager.bullets.size() - 1; i >= 0; i--)
         {
-            for (int j = enemys.size() - 1; j >= 0; j--)
+            for (int j = gamemanager.enemys.size() - 1; j >= 0; j--)
             {
-                if (collisionRecRec(enemys[j].hitBox, bullets[i].hitBox))
+                if (collisionRecRec(gamemanager.enemys[j].hitBox, gamemanager.bullets[i].hitBox))
                 {
-                    enemys.erase(enemys.begin() + j);
-                    bullets.erase(bullets.begin() + i);
-                    Entity::increasScore(player);
+                    gamemanager.enemys.erase(gamemanager.enemys.begin() + j);
+                    gamemanager.bullets.erase(gamemanager.bullets.begin() + i);
+                    Entity::increasScore(gamemanager.player);
                     break;
                 }
             }
@@ -123,41 +115,41 @@ static void collisionEnemyBullet()
 
 static void erasBulletsOutOfMap()
 {
-    for (int i = bullets.size() - 1; i >= 0; i--)
+    for (int i = gamemanager.bullets.size() - 1; i >= 0; i--)
     {
-        if (bullets[i].hitBox.y <= 0)
+        if (gamemanager.bullets[i].hitBox.y <= 0)
         {
-            bullets.erase(bullets.begin() + i);
+            gamemanager.bullets.erase(gamemanager.bullets.begin() + i);
         }
     }
 }
 
 static void updateEnemys()
 {
-    for (size_t i = 0; i < enemys.size(); i++)
+    for (size_t i = 0; i < gamemanager.enemys.size(); i++)
     {
-        Entity::updateEnemy(enemys[i]);
+        Entity::updateEnemy(gamemanager.enemys[i]);
     }
 }
 
 static void updateBullets()
 {
-    for (size_t i = 0; i < bullets.size(); i++)
+    for (size_t i = 0; i < gamemanager.bullets.size(); i++)
     {
-        Entity::updateBullet(bullets[i]);
+        Entity::updateBullet(gamemanager.bullets[i]);
     }
 
-    for (size_t i = 0; i < enemysBullets.size(); i++)
+    for (size_t i = 0; i < gamemanager.enemysBullets.size(); i++)
     {
-        Entity::updateBullet(enemysBullets[i]);
+        Entity::updateBullet(gamemanager.enemysBullets[i]);
     }
 }
 
 static void handleEnemyRespawn()
 {
-    if (enemys.empty())
+    if (gamemanager.enemys.empty())
     {
-        bullets.clear();
+        gamemanager.bullets.clear();
         creatEnemys();
     }
 }
@@ -166,7 +158,7 @@ static void updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer)
 {
 
     handleEnemyRespawn();
-    Entity::updatePlayer(player);
+    Entity::updatePlayer(gamemanager.player);
     updateEnemys();
     updateBullets();
     handleColEnemyWall(enemyWallCooldown);
@@ -179,30 +171,30 @@ static void updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer)
 
 static void drawGamePlay()
 {
-    Entity::drawPlayer(player);
+    Entity::drawPlayer(gamemanager.player);
 
-    for (size_t i = 0; i < enemys.size(); i++)
+    for (size_t i = 0; i < gamemanager.enemys.size(); i++)
     {
-        Entity::drawEnemy(enemys[i]);
+        Entity::drawEnemy(gamemanager.enemys[i]);
     }
 
-    for (size_t i = 0; i < bullets.size(); i++)
+    for (size_t i = 0; i < gamemanager.bullets.size(); i++)
     {
-        Entity::drawBullet(bullets[i]);
+        Entity::drawBullet(gamemanager.bullets[i]);
     }
 
-    for (size_t i = 0; i < enemysBullets.size(); i++)
+    for (size_t i = 0; i < gamemanager.enemysBullets.size(); i++)
     {
-        Entity::drawBullet(enemysBullets[i]);
+        Entity::drawBullet(gamemanager.enemysBullets[i]);
     }
 
-    DrawText(TextFormat("Score: %01i", player.score), 0, 0, 20, BLUE);
-    DrawText(TextFormat("Lives: %01i", player.HP), 0, 20, 20, BLUE);
+    DrawText(TextFormat("Score: %01i", gamemanager.player.score), 0, 0, 20, BLUE);
+    DrawText(TextFormat("Lives: %01i", gamemanager.player.HP), 0, 20, 20, BLUE);
 }
 
 void gameplay::initGamePlay()
 {
-    Entity::initPlayer(player);
+    Entity::initPlayer(gamemanager.player);
 
     creatEnemys();
 }
@@ -215,9 +207,9 @@ static void handleEnemyShoot(float& enemyShootTimer)
 
     if (enemyShootTimer >= enemyShootCooldown)
     {
-        if (!enemys.empty())
+        if (!gamemanager.enemys.empty())
         {
-            Entity::enemyShoot(enemys[rand() % enemys.size()]);
+            Entity::enemyShoot(gamemanager.enemys[rand() % gamemanager.enemys.size()]);
             enemyShootTimer = 0;
         }
         enemyShootTimer = 0.0f;
@@ -226,14 +218,14 @@ static void handleEnemyShoot(float& enemyShootTimer)
 
 static void collisionPlayerBullet()
 {
-    if (!enemysBullets.empty())
+    if (!gamemanager.enemysBullets.empty())
     {
-        for (int i = enemysBullets.size() - 1; i >= 0; i--)
+        for (int i = gamemanager.enemysBullets.size() - 1; i >= 0; i--)
         {
-            if (collisionRecRec(enemysBullets[i].hitBox, player.hitBox))
+            if (collisionRecRec(gamemanager.enemysBullets[i].hitBox, gamemanager.player.hitBox))
             {
-                enemysBullets.erase(enemysBullets.begin() + i);
-                player.HP--;
+                gamemanager.enemysBullets.erase(gamemanager.enemysBullets.begin() + i);
+                gamemanager.player.HP--;
                 break;
             }
 
@@ -243,12 +235,8 @@ static void collisionPlayerBullet()
 
 void gameplay::runGamePlay()
 {
-    //los timers pueden traer bug porque se resetean 
-    float enemyWallCooldown = 0.0f;
-    //const float enemyWallCooldownTime = 1.0f;
-    float enemyShootTimer = 0.0f;
 
-    updateGamePlay(enemyWallCooldown, enemyShootTimer);
+    updateGamePlay(gamemanager.enemyWallCooldown, gamemanager.enemyShootTimer);
 
     BeginDrawing();
 

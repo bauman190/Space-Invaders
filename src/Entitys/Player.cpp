@@ -1,11 +1,11 @@
 #include "Player.h"
-#include "raylib.h"
-#include "Bullet.h"
-#include "vector"
 
-extern int screenWidth;
-extern int screenHeight;
-extern std::vector<Entity::Bullet> bullets;
+#include "raylib.h"
+
+#include "Bullet.h"
+#include "Game/gameManager.h"
+
+extern GM::gameManager gamemanager;
 
 static void moveRight(Entity::Player& player)
 {
@@ -21,7 +21,7 @@ static void shoot(Entity::Player player)
 {
 	float x = player.hitBox.x + player.hitBox.width / 2;
 	float y = player.hitBox.y;
-	bullets.push_back(Entity::initBullet(x, y));
+	gamemanager.bullets.push_back(Entity::initBullet(x, y));
 }
 
 void Entity::drawPlayer(Player player)
@@ -31,7 +31,7 @@ void Entity::drawPlayer(Player player)
 
 void Entity::updatePlayer(Player& player)
 {
-	if (IsKeyDown(KEY_D) && player.hitBox.x + player.hitBox.width < screenWidth)
+	if (IsKeyDown(KEY_D) && player.hitBox.x + player.hitBox.width < gamemanager.screenWidth)
 	{
 		moveRight(player);
 	}
@@ -47,10 +47,10 @@ void Entity::updatePlayer(Player& player)
 
 void Entity::initPlayer(Player& player)
 {
-	float width = screenWidth * 0.05;
+	float width = gamemanager.screenWidth * 0.05;
 	float height = width;
-	float x = static_cast<float>(screenWidth / 2 - width / 2);
-	float y = static_cast<float>(screenHeight * 0.90);
+	float x = static_cast<float>(gamemanager.screenWidth / 2 - width / 2);
+	float y = static_cast<float>(gamemanager.screenHeight * 0.90);
 	player.hitBox = { x, y, width, height };
 	player.maxHP = 3;
 	player.HP = player.maxHP;

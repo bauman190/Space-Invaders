@@ -1,10 +1,12 @@
 #include "Enemy.h"
+
+#include "raylib.h"
+
 #include "vector"
 #include "Bullet.h"
+#include "Game/gameManager.h"
 
-extern int screenWidth;
-extern int screenHeight;
-extern std::vector<Entity::Bullet> enemysBullets;
+extern GM::gameManager gamemanager;
 
 void Entity::drawEnemy(Enemy enemy)
 {
@@ -16,7 +18,7 @@ void Entity::updateEnemy(Enemy& enemy)
 }
 void Entity::initEnemy(Enemy& enemy, float x, float y)
 {
-	float width = screenWidth * 0.03;
+	float width = gamemanager.screenWidth * 0.03;
 	float height = width;
 	enemy.hitBox = { x, y, width, height };
 	enemy.speed = 50.0f;
@@ -38,5 +40,5 @@ void Entity::enemyShoot(Enemy enemy)
 	float y = enemy.hitBox.y + enemy.hitBox.height;
 	Entity::Bullet newBullet = Entity::initBullet(x, y);
 	newBullet.speed *= -1.0f;
-	enemysBullets.push_back(newBullet);
+	gamemanager.enemysBullets.push_back(newBullet);
 }

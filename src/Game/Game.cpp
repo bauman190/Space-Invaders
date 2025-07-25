@@ -1,20 +1,17 @@
 #include "Game.h"
 #include "raylib.h"
 
-#include "Scenes/screen_options.h"
 #include "Scenes/gameplay.h"
+#include "gameManager.h"
+#include <time.h>
 
-int screenWidth = 800;
-int screenHeight = 600;
-
-/*std::vector<Entity::Bullet> bullets;
-std::vector <Entity::Enemy> enemys;
-std::vector<Entity::Bullet> enemysBullets;*/
+GM::gameManager gamemanager;
 
 void Game::runGame()
 {
+    srand(time(NULL));
 
-    InitWindow(screenWidth, screenHeight, "Space Invaders");
+    InitWindow(gamemanager.screenWidth, gamemanager.screenHeight, "Space Invaders");
 
     gameplay::initGamePlay();
 
