@@ -20,6 +20,9 @@
     <ClCompile Include="src\Scenes\gameplay.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scenes\gameover.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entitys">
@@ -59,6 +62,9 @@
     </ClInclude>
     <ClInclude Include="src\Game\gameManager.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\gameover.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

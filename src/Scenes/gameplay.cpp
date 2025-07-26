@@ -30,6 +30,8 @@ static void handleEnemyShoot(float& enemyShootTimer);
 
 static void collisionPlayerBullet();
 
+static void handelLoseCondition();
+
 static void creatEnemys()
 {
     const int rows = 5;
@@ -166,6 +168,7 @@ static void updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer)
     collisionPlayerBullet();
     handleEnemyShoot(enemyShootTimer);
     erasBulletsOutOfMap();
+    handelLoseCondition();
 
 }
 
@@ -194,6 +197,9 @@ static void drawGamePlay()
 
 void gameplay::initGamePlay()
 {
+    gamemanager.enemys.clear();
+    gamemanager.bullets.clear();
+    gamemanager.enemysBullets.clear();
     Entity::initPlayer(gamemanager.player);
 
     creatEnemys();
@@ -245,4 +251,25 @@ void gameplay::runGamePlay()
     drawGamePlay();
 
     EndDrawing();
+}
+
+static bool colPlayerEnemy()
+{
+    for (size_t i = 0; i < gamemanager.enemys.size(); i++)
+    {
+        if (collisionRecRec(gamemanager.enemys[i].hitBox, gamemanager.player.hitBox))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+static void handelLoseCondition()
+{
+    if (gamemanager.player.HP <= 0 || colPlayerEnemy())
+    {
+        gameplay::initGamePlay();
+        gamemanager.currentScreen = scenes::GameOver;
+    }
 }

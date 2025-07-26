@@ -16,7 +16,7 @@ struct gameManager
 	std::vector <Entity::Bullet> bullets;
 	std::vector <Entity::Bullet> enemysBullets;
 
-	scenes::Screen currentScreen;
+	scenes::Screen currentScreen = scenes::Gameplay;
 
 	int screenWidth = 800;
 	int screenHeight = 600;
