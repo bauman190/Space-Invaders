@@ -23,6 +23,9 @@
     <ClCompile Include="src\Scenes\gameover.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scenes\main_menu.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entitys">
@@ -64,6 +67,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="src\Scenes\gameover.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\main_menu.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,12 +16,14 @@ struct gameManager
 	std::vector <Entity::Bullet> bullets;
 	std::vector <Entity::Bullet> enemysBullets;
 
-	scenes::Screen currentScreen = scenes::Gameplay;
-
+	scenes::Screen currentScreen = scenes::MainMenu;
 	int screenWidth = 800;
 	int screenHeight = 600;
 
 	float enemyWallCooldown = 0.0f;
 	float enemyShootTimer = 0.0f;
+	bool exitGame;
+
+	Music music;
 };
 }

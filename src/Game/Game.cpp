@@ -2,6 +2,7 @@
 #include "raylib.h"
 
 #include "Scenes/gameplay.h"
+#include "Scenes/main_menu.h"
 #include "gameManager.h"
 #include "Scenes/gameover.h"
 #include <ctime>
@@ -14,15 +15,17 @@ void Game::runGame()
     srand(time(NULL));
 
     InitWindow(gamemanager.screenWidth, gamemanager.screenHeight, "Space Invaders");
-
+    InitAudioDevice();
+    main_menu::inItMainMenu();
     gameplay::initGamePlay();
     gameover::initGameOver();
 
-    while (!WindowShouldClose())
+    while (!WindowShouldClose() && !gamemanager.exitGame)
     {
         switch (gamemanager.currentScreen)
         {
         case scenes::MainMenu:
+            main_menu::runMainMenu();
             break;
         
         case scenes::Gameplay:
@@ -45,7 +48,7 @@ void Game::runGame()
             break;
         }
     }
-
+    CloseAudioDevice();
     CloseWindow();
 
 }

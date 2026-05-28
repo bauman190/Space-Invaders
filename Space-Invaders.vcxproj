@@ -26,6 +26,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Scenes\gameover.cpp" />
     <ClCompile Include="src\Scenes\gameplay.cpp" />
+    <ClCompile Include="src\Scenes\main_menu.cpp" />
     <ClCompile Include="src\UI\button.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +37,7 @@
     <ClInclude Include="src\Game\gameManager.h" />
     <ClInclude Include="src\Scenes\gameover.h" />
     <ClInclude Include="src\Scenes\gameplay.h" />
+    <ClInclude Include="src\Scenes\main_menu.h" />
     <ClInclude Include="src\Scenes\screen_options.h" />
     <ClInclude Include="src\UI\button.h" />
   </ItemGroup>
