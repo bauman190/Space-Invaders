@@ -5,6 +5,7 @@
 #include "Scenes/main_menu.h"
 #include "gameManager.h"
 #include "Scenes/gameover.h"
+#include "Scenes/how_to_play.h"
 #include <ctime>
 
 
@@ -19,6 +20,7 @@ void Game::runGame()
     main_menu::inItMainMenu();
     gameplay::initGamePlay();
     gameover::initGameOver();
+    how_to_play::inItHowTo();
 
     while (!WindowShouldClose() && !gamemanager.exitGame)
     {
@@ -43,6 +45,7 @@ void Game::runGame()
             break;
 
         case scenes::HowToPlay:
+            how_to_play::runHowtoPlay();
             break;
         default:
             break;

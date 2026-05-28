@@ -17,14 +17,17 @@
     <ClCompile Include="src\UI\button.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="src\Scenes\gameplay.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scenes\gameover.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="src\Scenes\main_menu.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scenes\gameplay.cpp">
+      <Filter>Scenes\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scenes\gameover.cpp">
+      <Filter>Scenes\Gameover</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scenes\how_to_play.cpp">
+      <Filter>Scenes\How to Play</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -39,6 +42,15 @@
     </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{2c572ead-d2b4-409c-9247-6e7e3f8b437c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\How to Play">
+      <UniqueIdentifier>{fbe08d8a-a008-4604-a0af-1fae44d07e4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Gameplay">
+      <UniqueIdentifier>{fe0271c8-c929-428b-8fb3-d41aba3e2909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Gameover">
+      <UniqueIdentifier>{ae01c81d-0ec1-49e2-8d34-856c58cce57b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,17 +72,20 @@
     <ClInclude Include="src\Scenes\screen_options.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scenes\gameplay.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="src\Game\gameManager.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scenes\gameover.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="src\Scenes\main_menu.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\gameplay.h">
+      <Filter>Scenes\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\gameover.h">
+      <Filter>Scenes\Gameover</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\how_to_play.h">
+      <Filter>Scenes\How to Play</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
