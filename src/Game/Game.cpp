@@ -6,6 +6,7 @@
 #include "gameManager.h"
 #include "Scenes/gameover.h"
 #include "Scenes/how_to_play.h"
+#include "Scenes/credits.h"
 #include <ctime>
 
 
@@ -21,6 +22,7 @@ void Game::runGame()
     gameplay::initGamePlay();
     gameover::initGameOver();
     how_to_play::inItHowTo();
+    credits::inItCredits();
 
     while (!WindowShouldClose() && !gamemanager.exitGame)
     {
@@ -42,6 +44,7 @@ void Game::runGame()
             break;
 
         case scenes::Credits:
+            credits::runCredits();
             break;
 
         case scenes::HowToPlay:

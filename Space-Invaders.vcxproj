@@ -24,6 +24,7 @@
     <ClCompile Include="src\Entitys\Player.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Scenes\credits.cpp" />
     <ClCompile Include="src\Scenes\gameover.cpp" />
     <ClCompile Include="src\Scenes\gameplay.cpp" />
     <ClCompile Include="src\Scenes\how_to_play.cpp" />
@@ -36,6 +37,7 @@
     <ClInclude Include="src\Entitys\Player.h" />
     <ClInclude Include="src\Game\Game.h" />
     <ClInclude Include="src\Game\gameManager.h" />
+    <ClInclude Include="src\Scenes\credits.h" />
     <ClInclude Include="src\Scenes\gameover.h" />
     <ClInclude Include="src\Scenes\gameplay.h" />
     <ClInclude Include="src\Scenes\how_to_play.h" />

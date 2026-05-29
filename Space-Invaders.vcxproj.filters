@@ -17,9 +17,6 @@
     <ClCompile Include="src\UI\button.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="src\Scenes\main_menu.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="src\Scenes\gameplay.cpp">
       <Filter>Scenes\Gameplay</Filter>
     </ClCompile>
@@ -28,6 +25,12 @@
     </ClCompile>
     <ClCompile Include="src\Scenes\how_to_play.cpp">
       <Filter>Scenes\How to Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scenes\main_menu.cpp">
+      <Filter>Scenes\Main_Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scenes\credits.cpp">
+      <Filter>Scenes\Credits</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +55,12 @@
     <Filter Include="Scenes\Gameover">
       <UniqueIdentifier>{ae01c81d-0ec1-49e2-8d34-856c58cce57b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Main_Menu">
+      <UniqueIdentifier>{6becae39-c507-4b37-a510-430580c604c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Credits">
+      <UniqueIdentifier>{339027f0-873f-4afc-ab9d-b3c84cdd96e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Entitys\Player.h">
@@ -75,9 +84,6 @@
     <ClInclude Include="src\Game\gameManager.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scenes\main_menu.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="src\Scenes\gameplay.h">
       <Filter>Scenes\Gameplay</Filter>
     </ClInclude>
@@ -86,6 +92,12 @@
     </ClInclude>
     <ClInclude Include="src\Scenes\how_to_play.h">
       <Filter>Scenes\How to Play</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\main_menu.h">
+      <Filter>Scenes\Main_Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\credits.h">
+      <Filter>Scenes\Credits</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
