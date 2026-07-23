@@ -24,21 +24,24 @@ static void drawHowTo()
 	UI::drawButton(back);
 
 	int x = GetScreenWidth() / 2 - MeasureText("Controls", 50) / 2;
-	int y = static_cast<int>(GetScreenHeight() * 0.2);
+	int y = static_cast<int>(GetScreenHeight() * 0.1);
 	DrawText("Controls", x, y, 50, WHITE);
 
 	x = static_cast<int>(GetScreenWidth() * 0.20);
 	y = static_cast<int>(GetScreenHeight() * 0.3);
-	DrawText("Left Click: Shoot", x, y, 40, WHITE);
+	DrawText("D: Move Right", x, y, 40, WHITE);
 
 	y = static_cast<int>(GetScreenHeight() * 0.4);
-	DrawText("Right Click: Move", x, y, 40, WHITE);
+	DrawText("A: Move Left", x, y, 40, WHITE);
 
 	y = static_cast<int>(GetScreenHeight() * 0.5);
-	DrawText("P: Pause", x, y, 40, WHITE);
+	DrawText("Space Bar: Shoot", x, y, 40, WHITE);
 
 	y = static_cast<int>(GetScreenHeight() * 0.6);
-	DrawText("Destroy as much asteroids as yo can!", x, y, 20, WHITE);
+	DrawText("P: Pause", x, y, 40, WHITE);
+
+	y = static_cast<int>(GetScreenHeight() * 0.7);
+	DrawText("Survive as long as yo can!", x, y, 20, WHITE);
 }
 
 static void inputHowTo()
