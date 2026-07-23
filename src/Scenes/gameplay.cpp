@@ -7,8 +7,12 @@
 #include "Entitys/Bullet.h"
 #include "vector"
 #include "Game/gameManager.h"
+#include "UI/button.h"
 
 extern GM::gameManager gamemanager;
+
+static UI::Button Play;
+static UI::Button Exit;
 
 static bool collisionRecRec(Rectangle r1, Rectangle r2)
 {
@@ -31,6 +35,10 @@ static void handleEnemyShoot(float& enemyShootTimer);
 static void collisionPlayerBullet();
 
 static void handelLoseCondition();
+
+static void handlePauseInput();
+
+static void handlePause();
 
 static void creatEnemys()
 {
@@ -158,18 +166,24 @@ static void handleEnemyRespawn()
 
 static void updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer)
 {
-
-    handleEnemyRespawn();
-    Entity::updatePlayer(gamemanager.player);
-    updateEnemys();
-    updateBullets();
-    handleColEnemyWall(enemyWallCooldown);
-    collisionEnemyBullet();
-    collisionPlayerBullet();
-    handleEnemyShoot(enemyShootTimer);
-    erasBulletsOutOfMap();
-    handelLoseCondition();
-
+    handlePauseInput();
+    if (!gamemanager.gamePaused)
+    {
+        handleEnemyRespawn();
+        Entity::updatePlayer(gamemanager.player);
+        updateEnemys();
+        updateBullets();
+        handleColEnemyWall(enemyWallCooldown);
+        collisionEnemyBullet();
+        collisionPlayerBullet();
+        handleEnemyShoot(enemyShootTimer);
+        erasBulletsOutOfMap();
+        handelLoseCondition();
+    }
+    if (gamemanager.gamePaused)
+    {
+        handlePause();
+    }
 }
 
 static void drawGamePlay()
@@ -193,6 +207,15 @@ static void drawGamePlay()
 
     DrawText(TextFormat("Score: %01i", gamemanager.player.score), 0, 0, 20, BLUE);
     DrawText(TextFormat("Lives: %01i", gamemanager.player.HP), 0, 20, 20, BLUE);
+
+    if (gamemanager.gamePaused)
+    {
+        const float alpha = 0.2;
+        DrawRectangle(0, 0, gamemanager.screenWidth, gamemanager.screenHeight, Fade(BLACK,alpha));
+        DrawText("Pause", gamemanager.screenWidth / 2 - MeasureText("Pause", 50) / 2, gamemanager.screenHeight * 0.1, 50, WHITE);
+        UI::drawButton(Play);
+        UI::drawButton(Exit);
+    }
 }
 
 void gameplay::initGamePlay()
@@ -200,7 +223,10 @@ void gameplay::initGamePlay()
     gamemanager.enemys.clear();
     gamemanager.bullets.clear();
     gamemanager.enemysBullets.clear();
+    gamemanager.gamePaused = false;
     Entity::initPlayer(gamemanager.player);
+    UI::inItButton(Play, gamemanager.screenWidth / 2, gamemanager.screenHeight * 0.6, LoadTexture("res/Play_on.png"), LoadTexture("res/PLay_off.png"));
+    UI::inItButton(Exit, gamemanager.screenWidth / 2, gamemanager.screenHeight * 0.8, LoadTexture("res/Exit_on.png"), LoadTexture("res/Exit_off.png"));
 
     creatEnemys();
 }
@@ -271,5 +297,26 @@ static void handelLoseCondition()
     {
         gameplay::initGamePlay();
         gamemanager.currentScreen = scenes::GameOver;
+    }
+}
+
+static void handlePauseInput()
+{
+    if (IsKeyPressed(KEY_P))
+    {
+        gamemanager.gamePaused = !gamemanager.gamePaused;
+    }
+}
+
+static void handlePause()
+{
+    if (UI::clickButton(Play))
+    {
+        gamemanager.gamePaused = !gamemanager.gamePaused;
+    }
+
+    if (UI::clickButton(Exit))
+    {
+        gamemanager.currentScreen = scenes::MainMenu;
     }
 }

@@ -4,6 +4,7 @@
 
 #include "UI/button.h"
 #include "Game/gameManager.h"
+#include "Scenes/gameplay.h"
 
 extern GM::gameManager gamemanager;
 
@@ -24,6 +25,7 @@ void main_menu::checkImputMainMenu()
 	{
 		StopMusicStream(gamemanager.music);
 		PlayMusicStream(gamemanager.music);
+		gameplay::initGamePlay();
 		gamemanager.currentScreen = scenes::Gameplay;
 	}
 	if (UI::clickButton(credits))

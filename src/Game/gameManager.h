@@ -22,6 +22,8 @@ struct gameManager
 
 	float enemyWallCooldown = 0.0f;
 	float enemyShootTimer = 0.0f;
+
+	bool gamePaused;
 	bool exitGame;
 
 	Music music;

@@ -35,9 +35,6 @@ void Game::runGame()
         case scenes::Gameplay:
             gameplay::runGamePlay();
             break;
-
-        case scenes::Pause:
-            break;
         
         case scenes::GameOver:
             gameover::runGameOver();

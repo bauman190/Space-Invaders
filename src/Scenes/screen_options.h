@@ -8,7 +8,6 @@ namespace scenes
         Gameplay,
         HowToPlay,
         Credits,
-        Pause,
         GameOver
     };
 }
