@@ -300,11 +300,16 @@ static void handelLoseCondition()
     }
 }
 
+static void togglePause()
+{
+    gamemanager.gamePaused = !gamemanager.gamePaused;
+}
+
 static void handlePauseInput()
 {
     if (IsKeyPressed(KEY_P))
     {
-        gamemanager.gamePaused = !gamemanager.gamePaused;
+        togglePause();
     }
 }
 
@@ -312,7 +317,7 @@ static void handlePause()
 {
     if (UI::clickButton(Play))
     {
-        gamemanager.gamePaused = !gamemanager.gamePaused;
+        togglePause();
     }
 
     if (UI::clickButton(Exit))
