@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "Tools/TextureInfo.h"
 
 namespace Entity
 {
@@ -7,6 +8,7 @@ namespace Entity
 	{
 		Rectangle hitBox;
 		float speed;
+		tools::textureInfo texture;
 	};
 	void drawEnemy(Enemy enemy);
 	void updateEnemy(Enemy& enemy);

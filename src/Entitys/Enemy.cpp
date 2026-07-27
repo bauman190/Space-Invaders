@@ -11,10 +11,13 @@ extern GM::gameManager gamemanager;
 void Entity::drawEnemy(Enemy enemy)
 {
 	DrawRectangle(static_cast<int>(enemy.hitBox.x), static_cast<int>(enemy.hitBox.y), static_cast<int>(enemy.hitBox.width), static_cast<int>(enemy.hitBox.height), RED);
+	DrawTexturePro(enemy.texture.texture ,enemy.texture.source,enemy.texture.dest ,{0, 0}, 0, WHITE);
 }
 void Entity::updateEnemy(Enemy& enemy)
 {
 	enemy.hitBox.x += enemy.speed * GetFrameTime();
+	enemy.texture.dest.x = enemy.hitBox.x;
+	enemy.texture.dest.y = enemy.hitBox.y;
 }
 void Entity::initEnemy(Enemy& enemy, float x, float y)
 {
@@ -22,6 +25,15 @@ void Entity::initEnemy(Enemy& enemy, float x, float y)
 	float height = width;
 	enemy.hitBox = { x, y, width, height };
 	enemy.speed = 50.0f;
+	enemy.texture.texture = LoadTexture("res/Alien.png"); 
+	enemy.texture.source.x = 0;
+	enemy.texture.source.y = 0;
+	enemy.texture.source.width = static_cast<float>(enemy.texture.texture.width);
+	enemy.texture.source.height = static_cast<float>(enemy.texture.texture.height);
+	enemy.texture.dest.width = static_cast<float>(enemy.hitBox.width);
+	enemy.texture.dest.height = static_cast<float>(enemy.hitBox.height);
+	enemy.texture.dest.x = enemy.hitBox.x;
+	enemy.texture.dest.y = enemy.hitBox.y;
 }
 
 void Entity::enemyChangeDir(Enemy& enemy)
