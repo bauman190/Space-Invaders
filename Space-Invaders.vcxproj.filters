@@ -61,6 +61,9 @@
     <Filter Include="Scenes\Credits">
       <UniqueIdentifier>{339027f0-873f-4afc-ab9d-b3c84cdd96e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{3be7c791-3ecc-46ed-8352-6903c3f566c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Entitys\Player.h">
@@ -98,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="src\Scenes\credits.h">
       <Filter>Scenes\Credits</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tools\TextureInfo.h">
+      <Filter>Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

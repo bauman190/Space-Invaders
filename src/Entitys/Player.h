@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "Tools/TextureInfo.h"
 
 namespace Entity
 {
@@ -10,6 +11,7 @@ namespace Entity
 		int HP;
 		int maxHP;
 		float speed;
+		tools::textureInfo texture;
 	};
 	void drawPlayer(Player player);
 	void updatePlayer(Player& player);

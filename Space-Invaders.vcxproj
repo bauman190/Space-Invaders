@@ -43,6 +43,7 @@
     <ClInclude Include="src\Scenes\how_to_play.h" />
     <ClInclude Include="src\Scenes\main_menu.h" />
     <ClInclude Include="src\Scenes\screen_options.h" />
+    <ClInclude Include="src\Tools\TextureInfo.h" />
     <ClInclude Include="src\UI\button.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
