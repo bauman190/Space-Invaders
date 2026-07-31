@@ -10,7 +10,9 @@ extern GM::gameManager gamemanager;
 
 void Entity::drawEnemy(Enemy enemy)
 {
+#ifdef _DEBUG 
 	DrawRectangle(static_cast<int>(enemy.hitBox.x), static_cast<int>(enemy.hitBox.y), static_cast<int>(enemy.hitBox.width), static_cast<int>(enemy.hitBox.height), RED);
+#endif
 	DrawTexturePro(enemy.texture.texture ,enemy.texture.source,enemy.texture.dest ,{0, 0}, 0, WHITE);
 }
 void Entity::updateEnemy(Enemy& enemy)
