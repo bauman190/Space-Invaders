@@ -42,29 +42,30 @@ static void handlePause();
 
 static void creatEnemys()
 {
-    const int rows = 5;
-    const int columns = 15;
+    const int rows = 3;
+    const int columns = 10;
+    const float spacing = 10.0f;
 
     Entity::Enemy newEnemy;
+    Entity::initEnemy(newEnemy, 0, 0);
 
-    Entity::initEnemy(newEnemy, gamemanager.screenWidth * 0.2, gamemanager.screenHeight * 0.1f);
+    float enemyWidth = newEnemy.hitBox.width;
+    float enemyHeight = newEnemy.hitBox.height;
 
-    gamemanager.enemys.push_back(newEnemy);
+    float formationWidth = columns * enemyWidth + (columns - 1) * spacing;
 
-    float initialX = newEnemy.hitBox.x;
+    float startX = (gamemanager.screenWidth - formationWidth) / 2.0f;
+    float startY = gamemanager.screenHeight * 0.1f;
 
-    for (size_t j = 0; j < rows; j++)
+    gamemanager.enemys.clear();
+
+    for (int row = 0; row < rows; row++)
     {
-        newEnemy.hitBox.x = initialX;
-        if (j >= 1)
+        for (int col = 0; col < columns; col++)
         {
-            newEnemy.hitBox.y += newEnemy.hitBox.height + 10;
-            gamemanager.enemys.push_back(newEnemy);
-        }
+            newEnemy.hitBox.x = startX + col * (enemyWidth + spacing);
+            newEnemy.hitBox.y = startY + row * (enemyHeight + spacing);
 
-        for (int i = 1; i < columns; i++)
-        {
-            newEnemy.hitBox.x += gamemanager.enemys[i - 1].hitBox.width + 10;
             gamemanager.enemys.push_back(newEnemy);
         }
     }
