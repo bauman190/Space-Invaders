@@ -25,7 +25,7 @@ void main_menu::checkImputMainMenu()
 	{
 		StopMusicStream(gamemanager.music);
 		PlayMusicStream(gamemanager.music);
-		gameplay::initGamePlay();
+		gameplay::restarGamePlay();
 		gamemanager.currentScreen = scenes::Gameplay;
 	}
 	if (UI::clickButton(credits))

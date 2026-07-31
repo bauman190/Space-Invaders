@@ -14,6 +14,8 @@ extern GM::gameManager gamemanager;
 static UI::Button Play;
 static UI::Button Exit;
 
+static Texture backGround;
+
 static bool collisionRecRec(Rectangle r1, Rectangle r2)
 {
     return (r1.x < r2.x + r2.width &&
@@ -189,6 +191,7 @@ static void updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer)
 
 static void drawGamePlay()
 {
+    DrawTexture(backGround, 0, 0, WHITE);
     Entity::drawPlayer(gamemanager.player);
 
     for (size_t i = 0; i < gamemanager.enemys.size(); i++)
@@ -228,7 +231,9 @@ void gameplay::initGamePlay()
     Entity::initPlayer(gamemanager.player);
     UI::inItButton(Play, gamemanager.screenWidth / 2, gamemanager.screenHeight * 0.6, LoadTexture("res/Play_on.png"), LoadTexture("res/PLay_off.png"));
     UI::inItButton(Exit, gamemanager.screenWidth / 2, gamemanager.screenHeight * 0.8, LoadTexture("res/Exit_on.png"), LoadTexture("res/Exit_off.png"));
-
+    backGround = LoadTexture("res/space.png");
+    backGround.height = GetScreenHeight();
+    backGround.width = GetScreenWidth();
     creatEnemys();
 }
 
@@ -270,6 +275,7 @@ void gameplay::runGamePlay()
 {
 
     updateGamePlay(gamemanager.enemyWallCooldown, gamemanager.enemyShootTimer);
+    UpdateMusicStream(gamemanager.music);
 
     BeginDrawing();
 
@@ -324,5 +330,20 @@ static void handlePause()
     if (UI::clickButton(Exit))
     {
         gamemanager.currentScreen = scenes::MainMenu;
+        StopMusicStream(gamemanager.music);
+        gamemanager.music = LoadMusicStream("res/Asteroids_menu.wav");
+        PlayMusicStream(gamemanager.music);
     }
+}
+
+void gameplay::restarGamePlay()
+{
+    gamemanager.enemys.clear();
+    gamemanager.bullets.clear();
+    gamemanager.enemysBullets.clear();
+    gamemanager.gamePaused = false;
+    Entity::initPlayer(gamemanager.player);
+    gamemanager.music = LoadMusicStream("res/Asteroids Gameplay.wav");
+    gamemanager.music.looping = true;
+    PlayMusicStream(gamemanager.music);
 }
