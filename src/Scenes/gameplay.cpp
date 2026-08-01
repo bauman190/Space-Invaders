@@ -354,7 +354,9 @@ void gameplay::unloadGameplay()
 {
     Entity::unloadEnemyTexture();
     Entity::unloadPlayerTexture();
+    Entity::unloadBullet();
     UI::unloadButton(Play);
     UI::unloadButton(Exit);
     UnloadTexture(backGround);
+
 }

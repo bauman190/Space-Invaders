@@ -9,6 +9,7 @@ extern GM::gameManager gamemanager;
 
 static Texture playerTexture;
 
+
 static void moveRight(Entity::Player& player)
 {
 	player.hitBox.x += player.speed * GetFrameTime();
