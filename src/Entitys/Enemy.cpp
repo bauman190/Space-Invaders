@@ -8,6 +8,8 @@
 
 extern GM::gameManager gamemanager;
 
+static Texture alienTexture; 
+
 void Entity::drawEnemy(Enemy enemy)
 {
 #ifdef _DEBUG 
@@ -23,11 +25,13 @@ void Entity::updateEnemy(Enemy& enemy)
 }
 void Entity::initEnemy(Enemy& enemy, float x, float y)
 {
-	float width = gamemanager.screenWidth * 0.06;
-	float height = width;
-	enemy.hitBox = { x, y, width, height };
-	enemy.speed = 50.0f;
-	enemy.texture.texture = LoadTexture("res/Alien.png"); 
+	Entity::createEnemy(enemy, x, y);
+
+	if (alienTexture.id == 0)
+	{
+		alienTexture = LoadTexture("res/Alien.png");
+	}
+	enemy.texture.texture = alienTexture;
 	enemy.texture.source.x = 0;
 	enemy.texture.source.y = 0;
 	enemy.texture.source.width = static_cast<float>(enemy.texture.texture.width);
@@ -55,4 +59,17 @@ void Entity::enemyShoot(Enemy enemy)
 	Entity::Bullet newBullet = Entity::initBullet(x, y);
 	newBullet.speed *= -1.0f;
 	gamemanager.enemysBullets.push_back(newBullet);
+}
+
+void Entity::unloadEnemyTexture()
+{
+	UnloadTexture(alienTexture);
+}
+
+void Entity::createEnemy(Enemy& enemy, float x, float y)
+{
+	float width = gamemanager.screenWidth * 0.06;
+	float height = width;
+	enemy.hitBox = { x, y, width, height };
+	enemy.speed = 50.0f;
 }

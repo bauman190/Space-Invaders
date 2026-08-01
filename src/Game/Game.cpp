@@ -11,6 +11,9 @@
 
 
 GM::gameManager gamemanager;
+Sound buttonSound;
+
+void unloadAssets();
 
 void Game::runGame()
 {
@@ -23,6 +26,7 @@ void Game::runGame()
     gameover::initGameOver();
     how_to_play::inItHowTo();
     credits::inItCredits();
+    buttonSound = LoadSound("res/Button.wav");
 
     while (!WindowShouldClose() && !gamemanager.exitGame)
     {
@@ -51,8 +55,19 @@ void Game::runGame()
             break;
         }
     }
+    UnloadSound(buttonSound);
+    unloadAssets();
+    UnloadMusicStream(gamemanager.music);
     CloseAudioDevice();
     CloseWindow();
+}
 
+void unloadAssets()
+{
+    main_menu::unloadMianMenu();
+    gameplay::unloadGameplay();
+    credits::unloadCreditsTextures();
+    gameover::unloadGameOver();
+    how_to_play::unloadHowTo();
 }
 

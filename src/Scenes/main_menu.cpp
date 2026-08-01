@@ -89,11 +89,10 @@ void main_menu::inItMainMenu()
 
 void main_menu::unloadMianMenu()
 {
-	UI::unloadButtonTextures(play);
-	UI::unloadButtonTextures(Exit);
-	UI::unloadButtonTextures(credits);
-	UI::unloadButtonTextures(controls);
-	UnloadMusicStream(gamemanager.music);
+	UI::unloadButton(play);
+	UI::unloadButton(Exit);
+	UI::unloadButton(credits);
+	UI::unloadButton(controls);
 	UnloadTexture(backGround);
 }
 

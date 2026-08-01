@@ -331,6 +331,7 @@ static void handlePause()
     {
         gamemanager.currentScreen = scenes::MainMenu;
         StopMusicStream(gamemanager.music);
+        UnloadMusicStream(gamemanager.music);
         gamemanager.music = LoadMusicStream("res/Asteroids_menu.wav");
         PlayMusicStream(gamemanager.music);
     }
@@ -343,7 +344,17 @@ void gameplay::restarGamePlay()
     gamemanager.enemysBullets.clear();
     gamemanager.gamePaused = false;
     Entity::initPlayer(gamemanager.player);
+    UnloadMusicStream(gamemanager.music);
     gamemanager.music = LoadMusicStream("res/Asteroids Gameplay.wav");
     gamemanager.music.looping = true;
     PlayMusicStream(gamemanager.music);
+}
+
+void gameplay::unloadGameplay()
+{
+    Entity::unloadEnemyTexture();
+    Entity::unloadPlayerTexture();
+    UI::unloadButton(Play);
+    UI::unloadButton(Exit);
+    UnloadTexture(backGround);
 }

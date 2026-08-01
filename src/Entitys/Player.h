@@ -17,4 +17,6 @@ namespace Entity
 	void updatePlayer(Player& player);
 	void initPlayer(Player& player);
 	void increasScore(Player& player);
+	void unloadPlayerTexture();
+	void restarPlayer(Player& player);
 }

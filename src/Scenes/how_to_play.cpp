@@ -64,6 +64,7 @@ void how_to_play::runHowtoPlay()
 
 void how_to_play::unloadHowTo()
 {
-	UI::unloadButtonTextures(back);
+	UI::unloadButton(back);
+	UnloadTexture(background);
 }
 

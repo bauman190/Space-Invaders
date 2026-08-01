@@ -16,4 +16,6 @@ namespace Entity
 	void enemyChangeDir(Enemy& enemy);
 	void enemyGoDown(Enemy& enemy);
 	void enemyShoot(Enemy enemy);
+	void unloadEnemyTexture();
+	void createEnemy(Enemy& enemy, float x, float y);
 }

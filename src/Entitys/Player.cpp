@@ -7,6 +7,8 @@
 
 extern GM::gameManager gamemanager;
 
+static Texture playerTexture;
+
 static void moveRight(Entity::Player& player)
 {
 	player.hitBox.x += player.speed * GetFrameTime();
@@ -61,16 +63,9 @@ void Entity::updatePlayer(Player& player)
 
 void Entity::initPlayer(Player& player)
 {
-	float width = gamemanager.screenWidth * 0.05;
-	float height = width;
-	float x = static_cast<float>(gamemanager.screenWidth / 2 - width / 2);
-	float y = static_cast<float>(gamemanager.screenHeight * 0.90);
-	player.hitBox = { x, y, width, height };
-	player.maxHP = 3;
-	player.HP = player.maxHP;
-	player.score = 0;
-	player.speed = 300.0f;
-	player.texture.texture = LoadTexture("res/Nave1.png");
+	Entity::restarPlayer(player);
+	playerTexture = LoadTexture("res/Nave1.png");
+	player.texture.texture = playerTexture;
 	player.texture.source.x = 0;
 	player.texture.source.y = 0;
 	player.texture.source.width = static_cast<float>(player.texture.texture.width);
@@ -85,4 +80,22 @@ void Entity::initPlayer(Player& player)
 void Entity::increasScore(Player& player)
 {
 	player.score++;
+}
+
+void Entity::unloadPlayerTexture()
+{
+	UnloadTexture(playerTexture);
+}
+
+void Entity::restarPlayer(Player& player)
+{
+	float width = gamemanager.screenWidth * 0.05;
+	float height = width;
+	float x = static_cast<float>(gamemanager.screenWidth / 2 - width / 2);
+	float y = static_cast<float>(gamemanager.screenHeight * 0.90);
+	player.hitBox = { x, y, width, height };
+	player.maxHP = 3;
+	player.HP = player.maxHP;
+	player.score = 0;
+	player.speed = 300.0f;
 }

@@ -69,7 +69,7 @@ static void checkInputCredits()
 
 void credits::unloadCreditsTextures()
 {
-	UI::unloadButtonTextures(back);
+	UI::unloadButton(back);
 }
 
 void credits::runCredits()

@@ -2,7 +2,7 @@
 
 #include "raylib.h"
 
-static Sound buttonSound;
+extern Sound buttonSound;
 
 static bool onButton(UI::Button button);
 
@@ -42,10 +42,9 @@ void UI::inItButton(Button& button, float x, float y, Texture on, Texture off)
 	button.off.height = static_cast<int>(button.button.height);
 	button.on.width = static_cast<int>(button.button.width);
 	button.on.height = static_cast<int>(button.button.height);
-	buttonSound = LoadSound("res/Button.wav");
 }
 
-void UI::unloadButtonTextures(Button& button)
+void UI::unloadButton(Button& button)
 {
 	UnloadTexture(button.off);
 	UnloadTexture(button.on);

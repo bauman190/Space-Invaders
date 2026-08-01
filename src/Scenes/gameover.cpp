@@ -45,3 +45,8 @@ void gameover::initGameOver()
 {
 	UI::inItButton(play, gamemanager.screenWidth / 2, gamemanager.screenHeight / 2, LoadTexture("res/Play_on.png"), LoadTexture("res/Play_off.png"));
 }
+
+void gameover::unloadGameOver()
+{
+	UI::unloadButton(play);
+}

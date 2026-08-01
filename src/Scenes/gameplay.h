@@ -7,4 +7,6 @@ namespace gameplay
 	void initGamePlay();
 
 	void restarGamePlay();
+
+	void unloadGameplay();
 }
