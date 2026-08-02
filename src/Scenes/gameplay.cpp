@@ -8,6 +8,7 @@
 #include "vector"
 #include "Game/gameManager.h"
 #include "UI/button.h"
+#include "Effects/Explosion.h"
 
 extern GM::gameManager gamemanager;
 
@@ -15,6 +16,15 @@ static UI::Button Play;
 static UI::Button Exit;
 
 static Texture backGround;
+
+static Texture explosionTexture;
+
+std::vector<Explosion> explosions;
+
+void updateExplosions();
+void drawExplosions();
+
+void StartExplosion(Explosion& expl, Vector2 pos);
 
 static bool collisionRecRec(Rectangle r1, Rectangle r2)
 {
@@ -116,9 +126,14 @@ static void collisionEnemyBullet()
             {
                 if (collisionRecRec(gamemanager.enemys[j].hitBox, gamemanager.bullets[i].hitBox))
                 {
+                    Explosion expl;
+                    StartExplosion(expl,{ gamemanager.enemys[j].hitBox.x , gamemanager.enemys[j].hitBox.y });
+                    explosions.push_back(expl);
+
                     gamemanager.enemys.erase(gamemanager.enemys.begin() + j);
                     gamemanager.bullets.erase(gamemanager.bullets.begin() + i);
                     Entity::increasScore(gamemanager.player);
+
                     break;
                 }
             }
@@ -182,6 +197,7 @@ static void updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer)
         handleEnemyShoot(enemyShootTimer);
         erasBulletsOutOfMap();
         handelLoseCondition();
+        updateExplosions();
     }
     if (gamemanager.gamePaused)
     {
@@ -208,6 +224,7 @@ static void drawGamePlay()
     {
         Entity::drawBullet(gamemanager.enemysBullets[i]);
     }
+    drawExplosions();
 
     DrawText(TextFormat("Score: %01i", gamemanager.player.score), 0, 0, 20, BLUE);
     DrawText(TextFormat("Lives: %01i", gamemanager.player.HP), 0, 20, 20, BLUE);
@@ -234,6 +251,8 @@ void gameplay::initGamePlay()
     backGround = LoadTexture("res/space.png");
     backGround.height = GetScreenHeight();
     backGround.width = GetScreenWidth();
+    explosionTexture = LoadTexture("res/Explosion.png");
+
     creatEnemys();
 }
 
@@ -358,5 +377,74 @@ void gameplay::unloadGameplay()
     UI::unloadButton(Play);
     UI::unloadButton(Exit);
     UnloadTexture(backGround);
+    UnloadTexture(explosionTexture);
+}
 
+void UpdateExplosion(Explosion& explosion)
+{
+    if (explosion.finished)
+        return;
+
+    
+    explosion.frameCounter += GetFrameTime();
+    
+    if (explosion.frameCounter >= explosion.frameDuration)
+    {
+        
+        explosion.frameCounter -= explosion.frameDuration;
+        explosion.currentFrame++; 
+        if (explosion.currentFrame >= explosion.nFrames) 
+        { 
+            explosion.finished = true; 
+        }
+        else
+        {
+            explosion.frameRec.x = explosion.currentFrame * explosion.frameRec.width;
+        }
+    }
+}
+
+void drawExplosion(Explosion expl)
+{
+    if (!expl.finished)
+    {
+        DrawTextureRec(explosionTexture, expl.frameRec, expl.pos, WHITE);
+    }
+}
+
+void StartExplosion(Explosion& expl, Vector2 pos)
+{
+    expl.pos = pos;
+
+    expl.currentFrame = 0;
+    expl.frameCounter = 0;
+    expl.finished = false;
+    expl.frameDuration = 0.2f;
+    expl.nFrames = 9.0f;
+
+    expl.frameRec.x = 0;
+    expl.frameRec.y = 0;
+    expl.frameRec.width = explosionTexture.width / expl.nFrames;
+    expl.frameRec.height = explosionTexture.height;
+}
+
+void updateExplosions()
+{
+    for (int i = 0; i < explosions.size(); i++)
+    {
+        UpdateExplosion(explosions[i]);
+    }
+    explosions.erase(std::remove_if(explosions.begin(), explosions.end(), [](const Explosion& expl)
+            {
+                return expl.finished;
+            }),
+        explosions.end());
+}
+void drawExplosions()
+{
+    DrawText(TextFormat("%i", explosions.size()), 10, 10, 20, RED);
+    for (int i = 0; i < explosions.size(); i++)
+    {
+        drawExplosion(explosions[i]);
+    }
 }

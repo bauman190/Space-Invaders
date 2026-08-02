@@ -10,6 +10,8 @@ extern GM::gameManager gamemanager;
 
 static Texture alienTexture; 
 
+//static Texture explosion;
+
 void Entity::drawEnemy(Enemy enemy)
 {
 #ifdef _DEBUG 
