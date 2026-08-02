@@ -22,10 +22,10 @@ static Sound explosionSound;
 
 static std::vector<Explosion> explosions;
 
-void updateExplosions();
-void drawExplosions();
+static void updateExplosions();
+static void drawExplosions();
 
-void StartExplosion(Explosion& expl, Vector2 pos);
+static void StartExplosion(Explosion& expl, Vector2 pos);
 
 static bool collisionRecRec(Rectangle r1, Rectangle r2)
 {
@@ -332,6 +332,14 @@ static void handelLoseCondition()
 static void togglePause()
 {
     gamemanager.gamePaused = !gamemanager.gamePaused;
+    if (gamemanager.gamePaused)
+    {
+        PauseMusicStream(gamemanager.music);
+    }
+    else
+    {
+        ResumeMusicStream(gamemanager.music);
+    }
 }
 
 static void handlePauseInput()
@@ -384,7 +392,7 @@ void gameplay::unloadGameplay()
     UnloadSound(explosionSound);
 }
 
-void UpdateExplosion(Explosion& explosion)
+static void UpdateExplosion(Explosion& explosion)
 {
     if (explosion.finished)
         return;
@@ -408,7 +416,7 @@ void UpdateExplosion(Explosion& explosion)
     }
 }
 
-void drawExplosion(Explosion expl)
+static void drawExplosion(Explosion expl)
 {
     if (!expl.finished)
     {
@@ -416,7 +424,7 @@ void drawExplosion(Explosion expl)
     }
 }
 
-void StartExplosion(Explosion& expl, Vector2 pos)
+static void StartExplosion(Explosion& expl, Vector2 pos)
 {
     expl.pos = pos;
 
@@ -432,7 +440,7 @@ void StartExplosion(Explosion& expl, Vector2 pos)
     expl.frameRec.height = explosionTexture.height;
 }
 
-void updateExplosions()
+static void updateExplosions()
 {
     for (int i = 0; i < explosions.size(); i++)
     {
@@ -444,7 +452,8 @@ void updateExplosions()
             }),
         explosions.end());
 }
-void drawExplosions()
+
+static void drawExplosions()
 {
     for (int i = 0; i < explosions.size(); i++)
     {
