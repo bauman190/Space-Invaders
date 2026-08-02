@@ -11,11 +11,11 @@ extern GM::gameManager gamemanager;
 
 static UI::Button play;
 static UI::Button back;
+static Texture backGround;
 
 static void drawGameOver()
 {
-
-	DrawText("GAME OVER", gamemanager.screenWidth / 2 - MeasureText("Game Over", 50) / 2, gamemanager.screenHeight * 0.2, 50, WHITE);
+	DrawTexture(backGround, 0, 0, WHITE);
 
 	UI::drawButton(play);
 	UI::drawButton(back);
@@ -54,8 +54,11 @@ void gameover::runGameOver()
 
 void gameover::initGameOver()
 {
-	UI::inItButton(play, gamemanager.screenWidth / 2, gamemanager.screenHeight / 2, LoadTexture("res/Play_on.png"), LoadTexture("res/Play_off.png"));
-	UI::inItButton(back, gamemanager.screenWidth / 2, gamemanager.screenHeight * 0.7, LoadTexture("res/Back_on.png"), LoadTexture("res/Back_off.png"));
+	UI::inItButton(play, gamemanager.screenWidth * 0.3, gamemanager.screenHeight * 0.7, LoadTexture("res/Play_on.png"), LoadTexture("res/Play_off.png"));
+	UI::inItButton(back, gamemanager.screenWidth * 0.7, gamemanager.screenHeight * 0.7, LoadTexture("res/Back_on.png"), LoadTexture("res/Back_off.png"));
+	backGround = LoadTexture("res/GameOver.png");
+	backGround.height = gamemanager.screenHeight;
+	backGround.width = gamemanager.screenWidth;
 }
 
 void gameover::unloadGameOver()
