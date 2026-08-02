@@ -18,8 +18,9 @@ static UI::Button Exit;
 static Texture backGround;
 
 static Texture explosionTexture;
+static Sound explosionSound;
 
-std::vector<Explosion> explosions;
+static std::vector<Explosion> explosions;
 
 void updateExplosions();
 void drawExplosions();
@@ -134,6 +135,7 @@ static void collisionEnemyBullet()
                     gamemanager.bullets.erase(gamemanager.bullets.begin() + i);
                     Entity::increasScore(gamemanager.player);
 
+                    PlaySound(explosionSound);
                     break;
                 }
             }
@@ -252,6 +254,7 @@ void gameplay::initGamePlay()
     backGround.height = GetScreenHeight();
     backGround.width = GetScreenWidth();
     explosionTexture = LoadTexture("res/Explosion.png");
+    explosionSound = LoadSound("res/Explosion.wav");
 
     creatEnemys();
 }
@@ -378,6 +381,7 @@ void gameplay::unloadGameplay()
     UI::unloadButton(Exit);
     UnloadTexture(backGround);
     UnloadTexture(explosionTexture);
+    UnloadSound(explosionSound);
 }
 
 void UpdateExplosion(Explosion& explosion)
@@ -442,7 +446,6 @@ void updateExplosions()
 }
 void drawExplosions()
 {
-    DrawText(TextFormat("%i", explosions.size()), 10, 10, 20, RED);
     for (int i = 0; i < explosions.size(); i++)
     {
         drawExplosion(explosions[i]);
