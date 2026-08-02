@@ -23,21 +23,18 @@ void main_menu::checkImputMainMenu()
 {
 	if (UI::clickButton(play))
 	{
-		StopMusicStream(gamemanager.music);
-		PlayMusicStream(gamemanager.music);
+		
 		gameplay::restarGamePlay();
 		gamemanager.currentScreen = scenes::Gameplay;
 	}
 	if (UI::clickButton(credits))
 	{
-		StopMusicStream(gamemanager.music);
-		PlayMusicStream(gamemanager.music);
+		
 		gamemanager.currentScreen = scenes::Credits;
 	}
 	if (UI::clickButton(controls))
 	{
-		StopMusicStream(gamemanager.music);
-		PlayMusicStream(gamemanager.music);
+		
 		gamemanager.currentScreen = scenes::HowToPlay;
 	}
 	if (UI::clickButton(Exit))
