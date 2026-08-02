@@ -32,9 +32,9 @@ static void updateGameOver()
 	if (UI::clickButton(back))
 	{
 		gamemanager.currentScreen = scenes::MainMenu;
-		StopMusicStream(gamemanager.music);
 		UnloadMusicStream(gamemanager.music);
 		gamemanager.music = LoadMusicStream("res/Asteroids_menu.wav");
+		gamemanager.music.looping = true;
 		PlayMusicStream(gamemanager.music);	
 	}
 }
@@ -42,7 +42,7 @@ static void updateGameOver()
 void gameover::runGameOver()
 {
 	updateGameOver();
-
+	UpdateMusicStream(gamemanager.music);
 	BeginDrawing();
 
 	ClearBackground(BLACK);
@@ -65,4 +65,5 @@ void gameover::unloadGameOver()
 {
 	UI::unloadButton(play);
 	UI::unloadButton(back);
+	UnloadTexture(backGround);
 }

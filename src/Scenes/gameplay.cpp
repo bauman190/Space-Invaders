@@ -324,7 +324,11 @@ static void handelLoseCondition()
 {
     if (gamemanager.player.HP <= 0 || colPlayerEnemy())
     {
-        gameplay::initGamePlay();
+        gameplay::restarGamePlay();
+        StopMusicStream(gamemanager.music);
+        UnloadMusicStream(gamemanager.music);
+        gamemanager.music = LoadMusicStream("res/Last_Life_Spent.wav");
+        PlayMusicStream(gamemanager.music);
         gamemanager.currentScreen = scenes::GameOver;
     }
 }
