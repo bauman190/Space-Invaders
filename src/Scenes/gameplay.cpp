@@ -286,6 +286,7 @@ static void collisionPlayerBullet()
             {
                 gamemanager.enemysBullets.erase(gamemanager.enemysBullets.begin() + i);
                 gamemanager.player.HP--;
+                PlaySound(gamemanager.player.hitSound);
                 break;
             }
 
@@ -387,7 +388,7 @@ void gameplay::restarGamePlay()
 void gameplay::unloadGameplay()
 {
     Entity::unloadEnemyTexture();
-    Entity::unloadPlayerTexture();
+    Entity::unloadPlayer();
     Entity::unloadBullet();
     UI::unloadButton(Play);
     UI::unloadButton(Exit);

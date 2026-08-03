@@ -8,7 +8,7 @@
 extern GM::gameManager gamemanager;
 
 static Texture playerTexture;
-
+static Sound hitSound;
 
 static void moveRight(Entity::Player& player)
 {
@@ -75,7 +75,8 @@ void Entity::initPlayer(Player& player)
 	player.texture.dest.height = static_cast<float>(player.hitBox.height);
 	player.texture.dest.x = player.hitBox.x;
 	player.texture.dest.y = player.hitBox.y;
-
+	hitSound = LoadSound("res/Hit_Hurt.wav");
+	player.hitSound = hitSound;
 }
 
 void Entity::increasScore(Player& player)
@@ -83,9 +84,10 @@ void Entity::increasScore(Player& player)
 	player.score++;
 }
 
-void Entity::unloadPlayerTexture()
+void Entity::unloadPlayer()
 {
 	UnloadTexture(playerTexture);
+	UnloadSound(hitSound);
 }
 
 void Entity::restarPlayer(Player& player)

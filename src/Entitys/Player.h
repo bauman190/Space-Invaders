@@ -12,11 +12,12 @@ namespace Entity
 		int maxHP;
 		float speed;
 		tools::textureInfo texture;
+		Sound hitSound;
 	};
 	void drawPlayer(Player player);
 	void updatePlayer(Player& player);
 	void initPlayer(Player& player);
 	void increasScore(Player& player);
-	void unloadPlayerTexture();
+	void unloadPlayer();
 	void restarPlayer(Player& player);
 }
