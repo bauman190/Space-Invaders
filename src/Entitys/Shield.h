@@ -9,10 +9,12 @@ namespace Entity
 	{
 		Rectangle hitbox;
 		int hp;
-		Color color;
+		Rectangle sourceRec;
+		Texture texture;
 	};
 
 	void inItShield(Shield& shield , int x, int y);
 	void takeDamage(Shield& shield);
 	void drawShield(Shield shield);
+	void unloadShield(Shield& shield);
 }

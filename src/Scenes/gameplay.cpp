@@ -520,6 +520,7 @@ static void colShieldBullet(std::vector<Entity::Bullet>& bullets)
 
                     if (gamemanager.shields[j].hp <= 0)
                     {
+                        Entity::unloadShield(gamemanager.shields[j]);
                         gamemanager.shields.erase(gamemanager.shields.begin() + j);
                     }
                     bullets.erase(bullets.begin() + i);
