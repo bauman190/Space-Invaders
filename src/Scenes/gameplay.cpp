@@ -23,6 +23,8 @@ static Sound explosionSound;
 
 static std::vector<Explosion> explosions;
 
+static void colShieldEnemy();
+
 static void createShields();
 
 static void drawShields();
@@ -209,6 +211,7 @@ static void updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer)
         updateExplosions();
         colShieldBullet(gamemanager.bullets);
         colShieldBullet(gamemanager.enemysBullets);
+        colShieldEnemy();
     }
     if (gamemanager.gamePaused)
     {
@@ -530,4 +533,33 @@ static void colShieldBullet(std::vector<Entity::Bullet>& bullets)
         }
     }
     
+}
+
+static void colShieldEnemy()
+{
+    if (!gamemanager.enemys.empty() && !gamemanager.shields.empty())
+    {
+        for (int i = gamemanager.enemys.size() - 1; i >= 0; i--)
+        {
+            for (int j = gamemanager.shields.size() - 1; j >= 0; j--)
+            {
+                if (collisionRecRec(gamemanager.enemys[i].hitBox, gamemanager.shields[j].hitbox))
+                {
+                    Entity::takeDamage(gamemanager.shields[j]);
+
+                    if (gamemanager.shields[j].hp <= 0)
+                    {
+                        Entity::unloadShield(gamemanager.shields[j]);
+                        gamemanager.shields.erase(gamemanager.shields.begin() + j);
+                    }
+                    Explosion expl;
+                    StartExplosion(expl, { gamemanager.enemys[i].hitBox.x , gamemanager.enemys[i].hitBox.y });
+                    explosions.push_back(expl);
+
+                    gamemanager.enemys.erase(gamemanager.enemys.begin() + i);
+                    break;
+                }
+            }
+        }
+    }
 }
