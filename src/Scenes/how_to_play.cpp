@@ -55,6 +55,7 @@ static void inputHowTo()
 void how_to_play::runHowtoPlay()
 {
 	inputHowTo();
+	UpdateMusicStream(gamemanager.music);
 	BeginDrawing();
 
 	ClearBackground(BLACK);

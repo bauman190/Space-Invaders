@@ -75,6 +75,7 @@ void credits::unloadCreditsTextures()
 void credits::runCredits()
 {
 	checkInputCredits();
+	UpdateMusicStream(gamemanager.music);
 	BeginDrawing();
 
 	ClearBackground(BLACK);
