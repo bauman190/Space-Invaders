@@ -34,19 +34,12 @@ static void drawCredits()
 	DrawText("Code: ", x, y, 20, WHITE);
 
 	y = static_cast<int>(GetScreenHeight() * 0.4);
-	x = static_cast<int>(GetScreenWidth() * 0.80 - MeasureText("Felipe Garea Berlin", 20) / 2);
-	DrawText("Felipe Garea Berlin", x, y, 20, GRAY);
-
 	x = static_cast<int>(GetScreenWidth() * 0.20 - MeasureText("Juan Bautista Castignain", 20) / 2);
 	DrawText("Juan Bautista Castignain", x, y, 20, GRAY);
 
-	y = static_cast<int>(GetScreenHeight() * 0.5);
-	x = static_cast<int>(GetScreenWidth() * 0.80 - MeasureText("Space Ship, Asteroid", 20) / 2);
-	DrawText("Space Ship, Asteroid", x, y, 20, GRAY);
-
-	y = static_cast<int>(GetScreenHeight() * 0.6);
-	x = static_cast<int>(GetScreenWidth() * 0.80 - MeasureText("Buttons, Background", 20) / 2);
-	DrawText("Buttons, Background", x, y, 20, GRAY);
+	y = static_cast<int>(GetScreenHeight() * 0.4);
+	x = static_cast<int>(GetScreenWidth() * 0.80 - MeasureText("Felipe Garea Berlin", 20) / 2);
+	DrawText("Felipe Garea Berlin", x, y, 20, GRAY);
 
 	y = static_cast<int>(GetScreenHeight() * 0.5);
 	x = static_cast<int>(GetScreenWidth() * 0.20 - MeasureText("Music and Sound Efects", 20) / 2);
