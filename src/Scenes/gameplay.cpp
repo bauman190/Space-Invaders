@@ -1,4 +1,5 @@
 #include "gameplay.h"
+#include "Scenes/gameplay_screen_internal.h"
 
 #include "raylib.h"
 
@@ -11,6 +12,7 @@
 #include "Effects/Explosion.h"
 #include "Entitys/Shield.h"
 
+
 extern GM::gameManager gamemanager;
 
 static UI::Button Play;
@@ -18,25 +20,72 @@ static UI::Button Exit;
 
 static Texture backGround;
 
-static Texture explosionTexture;
-static Sound explosionSound;
+static std::vector<Effects::Explosion> explosions;
 
-static std::vector<Explosion> explosions;
+void gameplay::initGamePlay()
+{
+    gamemanager.enemys.clear();
+    gamemanager.bullets.clear();
+    gamemanager.enemysBullets.clear();
+    gamemanager.shields.clear();
+    gamemanager.gamePaused = false;
+    Entity::initPlayer(gamemanager.player);
+    UI::inItButton(Play, gamemanager.screenWidth / 2, gamemanager.screenHeight * 0.6, LoadTexture("res/Play_on.png"), LoadTexture("res/PLay_off.png"));
+    UI::inItButton(Exit, gamemanager.screenWidth / 2, gamemanager.screenHeight * 0.8, LoadTexture("res/Exit_on.png"), LoadTexture("res/Exit_off.png"));
+    backGround = LoadTexture("res/space.png");
+    backGround.height = GetScreenHeight();
+    backGround.width = GetScreenWidth();
+    Effects::inItExplosion();
 
-static void colShieldEnemy();
+    gsi::creatEnemys();
+    gsi::createShields();
+}
 
-static void createShields();
+void gameplay::runGamePlay()
+{
 
-static void drawShields();
+    gsi::updateGamePlay(gamemanager.enemyWallCooldown, gamemanager.enemyShootTimer);
+    UpdateMusicStream(gamemanager.music);
 
-static void colShieldBullet(std::vector<Entity::Bullet>& bullets);
+    BeginDrawing();
 
-static void updateExplosions();
-static void drawExplosions();
+    ClearBackground(BLACK);
 
-static void StartExplosion(Explosion& expl, Vector2 pos);
+    gsi::drawGamePlay();
 
-static bool collisionRecRec(Rectangle r1, Rectangle r2)
+    EndDrawing();
+}
+
+void gameplay::restarGamePlay()
+{
+    gamemanager.enemys.clear();
+    gamemanager.bullets.clear();
+    gamemanager.enemysBullets.clear();
+    gamemanager.shields.clear();
+    explosions.clear();
+    gamemanager.rowIncrease = 0;
+    gsi::creatEnemys();
+    gsi::createShields();
+    gamemanager.gamePaused = false;
+    Entity::initPlayer(gamemanager.player);
+    UnloadMusicStream(gamemanager.music);
+    gamemanager.music = LoadMusicStream("res/Asteroids Gameplay.wav");
+    gamemanager.music.looping = true;
+    PlayMusicStream(gamemanager.music);
+}
+
+void gameplay::unloadGameplay()
+{
+    Entity::unloadEnemyTexture();
+    Entity::unloadPlayer();
+    Entity::unloadBullet();
+    UI::unloadButton(Play);
+    UI::unloadButton(Exit);
+    UnloadTexture(backGround);
+    Effects::unloadExplosion();
+}
+
+bool gsi::collisionRecRec(Rectangle r1, Rectangle r2)
 {
     return (r1.x < r2.x + r2.width &&
         r1.x + r1.width > r2.x &&
@@ -44,25 +93,7 @@ static bool collisionRecRec(Rectangle r1, Rectangle r2)
         r1.y + r1.height > r2.y);
 }
 
-static void creatEnemys();
-
-static void handleColEnemyWall(float& enemyWallCooldown);
-
-static void updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer);
-
-static void drawGamePlay();
-
-static void handleEnemyShoot(float& enemyShootTimer);
-
-static void collisionPlayerBullet();
-
-static void handelLoseCondition();
-
-static void handlePauseInput();
-
-static void handlePause();
-
-static void creatEnemys()
+void gsi::creatEnemys()
 {
     const int rows = 1 + gamemanager.rowIncrease;
     const int columns = 10;
@@ -93,7 +124,7 @@ static void creatEnemys()
     }
 }
 
-static void changeAllEnemysDir()
+void gsi::changeAllEnemysDir()
 {
     for (size_t i = 0; i < gamemanager.enemys.size(); i++)
     {
@@ -102,7 +133,7 @@ static void changeAllEnemysDir()
     }
 }
 
-static void handleColEnemyWall(float& enemyWallCooldown)
+void gsi::handleColEnemyWall(float& enemyWallCooldown)
 {
     const float enemyWallCooldownTime = 1.0f;
 
@@ -126,7 +157,7 @@ static void handleColEnemyWall(float& enemyWallCooldown)
     }
 }
 
-static void collisionEnemyBullet()
+void gsi::collisionEnemyBullet()
 {
     if (!gamemanager.enemys.empty() && !gamemanager.bullets.empty())
     {
@@ -136,15 +167,14 @@ static void collisionEnemyBullet()
             {
                 if (collisionRecRec(gamemanager.enemys[j].hitBox, gamemanager.bullets[i].hitBox))
                 {
-                    Explosion expl;
-                    StartExplosion(expl,{ gamemanager.enemys[j].hitBox.x , gamemanager.enemys[j].hitBox.y });
+                    Effects::Explosion expl;
+                    Effects::StartExplosion(expl,{ gamemanager.enemys[j].hitBox.x , gamemanager.enemys[j].hitBox.y });
                     explosions.push_back(expl);
 
                     gamemanager.enemys.erase(gamemanager.enemys.begin() + j);
                     gamemanager.bullets.erase(gamemanager.bullets.begin() + i);
                     Entity::increasScore(gamemanager.player);
 
-                    PlaySound(explosionSound);
                     break;
                 }
             }
@@ -152,7 +182,7 @@ static void collisionEnemyBullet()
     }
 }
 
-static void erasBulletsOutOfMap()
+void gsi::erasBulletsOutOfMap()
 {
     for (int i = gamemanager.bullets.size() - 1; i >= 0; i--)
     {
@@ -163,7 +193,7 @@ static void erasBulletsOutOfMap()
     }
 }
 
-static void updateEnemys()
+void gsi::updateEnemys()
 {
     for (size_t i = 0; i < gamemanager.enemys.size(); i++)
     {
@@ -171,7 +201,7 @@ static void updateEnemys()
     }
 }
 
-static void updateBullets()
+void gsi::updateBullets()
 {
     for (size_t i = 0; i < gamemanager.bullets.size(); i++)
     {
@@ -184,7 +214,7 @@ static void updateBullets()
     }
 }
 
-static void handleEnemyRespawn()
+void gsi::handleEnemyRespawn()
 {
     if (gamemanager.enemys.empty())
     {
@@ -198,7 +228,7 @@ static void handleEnemyRespawn()
     }
 }
 
-static void updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer)
+void gsi::updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer)
 {
     handlePauseInput();
     if (!gamemanager.gamePaused)
@@ -224,7 +254,7 @@ static void updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer)
     }
 }
 
-static void drawGamePlay()
+void gsi::drawGamePlay()
 {
     DrawTexture(backGround, 0, 0, WHITE);
     Entity::drawPlayer(gamemanager.player);
@@ -258,27 +288,7 @@ static void drawGamePlay()
     }
 }
 
-void gameplay::initGamePlay()
-{
-    gamemanager.enemys.clear();
-    gamemanager.bullets.clear();
-    gamemanager.enemysBullets.clear();
-    gamemanager.shields.clear();
-    gamemanager.gamePaused = false;
-    Entity::initPlayer(gamemanager.player);
-    UI::inItButton(Play, gamemanager.screenWidth / 2, gamemanager.screenHeight * 0.6, LoadTexture("res/Play_on.png"), LoadTexture("res/PLay_off.png"));
-    UI::inItButton(Exit, gamemanager.screenWidth / 2, gamemanager.screenHeight * 0.8, LoadTexture("res/Exit_on.png"), LoadTexture("res/Exit_off.png"));
-    backGround = LoadTexture("res/space.png");
-    backGround.height = GetScreenHeight();
-    backGround.width = GetScreenWidth();
-    explosionTexture = LoadTexture("res/Explosion.png");
-    explosionSound = LoadSound("res/Explosion.wav");
-
-    creatEnemys();
-    createShields();
-}
-
-static void handleEnemyShoot(float& enemyShootTimer)
+void gsi::handleEnemyShoot(float& enemyShootTimer)
 {
     const float enemyShootCooldown = 3.0f;
 
@@ -295,7 +305,7 @@ static void handleEnemyShoot(float& enemyShootTimer)
     }
 }
 
-static void collisionPlayerBullet()
+void gsi::collisionPlayerBullet()
 {
     if (!gamemanager.enemysBullets.empty())
     {
@@ -313,22 +323,7 @@ static void collisionPlayerBullet()
     }
 }
 
-void gameplay::runGamePlay()
-{
-
-    updateGamePlay(gamemanager.enemyWallCooldown, gamemanager.enemyShootTimer);
-    UpdateMusicStream(gamemanager.music);
-
-    BeginDrawing();
-
-    ClearBackground(BLACK);
-
-    drawGamePlay();
-
-    EndDrawing();
-}
-
-static bool colPlayerEnemy()
+bool gsi::colPlayerEnemy()
 {
     for (size_t i = 0; i < gamemanager.enemys.size(); i++)
     {
@@ -340,7 +335,7 @@ static bool colPlayerEnemy()
     return false;
 }
 
-static void handelLoseCondition()
+void gsi::handelLoseCondition()
 {
     if (gamemanager.player.HP <= 0 || colPlayerEnemy())
     {
@@ -353,7 +348,7 @@ static void handelLoseCondition()
     }
 }
 
-static void togglePause()
+void gsi::togglePause()
 {
     gamemanager.gamePaused = !gamemanager.gamePaused;
     if (gamemanager.gamePaused)
@@ -366,7 +361,7 @@ static void togglePause()
     }
 }
 
-static void handlePauseInput()
+void gsi::handlePauseInput()
 {
     if (IsKeyPressed(KEY_P))
     {
@@ -374,7 +369,7 @@ static void handlePauseInput()
     }
 }
 
-static void handlePause()
+void gsi::handlePause()
 {
     if (UI::clickButton(Play))
     {
@@ -391,98 +386,20 @@ static void handlePause()
     }
 }
 
-void gameplay::restarGamePlay()
-{
-    gamemanager.enemys.clear();
-    gamemanager.bullets.clear();
-    gamemanager.enemysBullets.clear();
-    gamemanager.shields.clear();
-    explosions.clear();
-    gamemanager.rowIncrease = 0;
-    creatEnemys();
-    createShields();
-    gamemanager.gamePaused = false;
-    Entity::initPlayer(gamemanager.player);
-    UnloadMusicStream(gamemanager.music);
-    gamemanager.music = LoadMusicStream("res/Asteroids Gameplay.wav");
-    gamemanager.music.looping = true;
-    PlayMusicStream(gamemanager.music);
-}
-
-void gameplay::unloadGameplay()
-{
-    Entity::unloadEnemyTexture();
-    Entity::unloadPlayer();
-    Entity::unloadBullet();
-    UI::unloadButton(Play);
-    UI::unloadButton(Exit);
-    UnloadTexture(backGround);
-    UnloadTexture(explosionTexture);
-    UnloadSound(explosionSound);
-}
-
-static void UpdateExplosion(Explosion& explosion)
-{
-    if (explosion.finished)
-        return;
-
-    
-    explosion.frameCounter += GetFrameTime();
-    
-    if (explosion.frameCounter >= explosion.frameDuration)
-    {
-        
-        explosion.frameCounter -= explosion.frameDuration;
-        explosion.currentFrame++; 
-        if (explosion.currentFrame >= explosion.nFrames) 
-        { 
-            explosion.finished = true; 
-        }
-        else
-        {
-            explosion.frameRec.x = explosion.currentFrame * explosion.frameRec.width;
-        }
-    }
-}
-
-static void drawExplosion(Explosion expl)
-{
-    if (!expl.finished)
-    {
-        DrawTextureRec(explosionTexture, expl.frameRec, expl.pos, WHITE);
-    }
-}
-
-static void StartExplosion(Explosion& expl, Vector2 pos)
-{
-    expl.pos = pos;
-
-    expl.currentFrame = 0;
-    expl.frameCounter = 0;
-    expl.finished = false;
-    expl.frameDuration = 0.2f;
-    expl.nFrames = 9.0f;
-
-    expl.frameRec.x = 0;
-    expl.frameRec.y = 0;
-    expl.frameRec.width = explosionTexture.width / expl.nFrames;
-    expl.frameRec.height = explosionTexture.height;
-}
-
-static void updateExplosions()
+void gsi::updateExplosions()
 {
     for (int i = 0; i < explosions.size(); i++)
     {
         UpdateExplosion(explosions[i]);
     }
-    explosions.erase(std::remove_if(explosions.begin(), explosions.end(), [](const Explosion& expl)
+    explosions.erase(std::remove_if(explosions.begin(), explosions.end(), [](const Effects::Explosion& expl)
             {
                 return expl.finished;
             }),
         explosions.end());
 }
 
-static void drawExplosions()
+void gsi::drawExplosions()
 {
     for (int i = 0; i < explosions.size(); i++)
     {
@@ -490,7 +407,7 @@ static void drawExplosions()
     }
 }
 
-static void createShields()
+void gsi::createShields()
 {
     gamemanager.shields.clear();
     const int numShields = 5;
@@ -508,7 +425,7 @@ static void createShields()
     }
 }
 
-static void drawShields()
+void gsi::drawShields()
 {
     for (int i = 0; i < gamemanager.shields.size(); i++)
     {
@@ -516,7 +433,7 @@ static void drawShields()
     }
 }
 
-static void colShieldBullet(std::vector<Entity::Bullet>& bullets)
+void gsi::colShieldBullet(std::vector<Entity::Bullet>& bullets)
 {
     if (!bullets.empty() && !gamemanager.shields.empty())
     {
@@ -542,7 +459,7 @@ static void colShieldBullet(std::vector<Entity::Bullet>& bullets)
     
 }
 
-static void colShieldEnemy()
+void gsi::colShieldEnemy()
 {
     if (!gamemanager.enemys.empty() && !gamemanager.shields.empty())
     {
@@ -559,8 +476,8 @@ static void colShieldEnemy()
                         Entity::unloadShield(gamemanager.shields[j]);
                         gamemanager.shields.erase(gamemanager.shields.begin() + j);
                     }
-                    Explosion expl;
-                    StartExplosion(expl, { gamemanager.enemys[i].hitBox.x , gamemanager.enemys[i].hitBox.y });
+                    Effects::Explosion expl;
+                    Effects::StartExplosion(expl, { gamemanager.enemys[i].hitBox.x , gamemanager.enemys[i].hitBox.y });
                     explosions.push_back(expl);
 
                     gamemanager.enemys.erase(gamemanager.enemys.begin() + i);

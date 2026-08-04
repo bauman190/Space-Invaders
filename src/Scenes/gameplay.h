@@ -2,9 +2,9 @@
 
 namespace gameplay
 {
-	void runGamePlay();
-
 	void initGamePlay();
+
+	void runGamePlay();
 
 	void restarGamePlay();
 

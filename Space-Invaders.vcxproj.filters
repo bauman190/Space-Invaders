@@ -35,6 +35,9 @@
     <ClCompile Include="src\Entitys\Shield.cpp">
       <Filter>Entitys</Filter>
     </ClCompile>
+    <ClCompile Include="src\Effects\explosion.cpp">
+      <Filter>Effects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entitys">
@@ -116,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="src\Entitys\Shield.h">
       <Filter>Entitys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\gameplay_screen_internal.h">
+      <Filter>Scenes\Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

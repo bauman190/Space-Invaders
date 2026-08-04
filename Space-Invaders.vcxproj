@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Effects\explosion.cpp" />
     <ClCompile Include="src\Entitys\Bullet.cpp" />
     <ClCompile Include="src\Entitys\Enemy.cpp" />
     <ClCompile Include="src\Entitys\Player.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="src\Scenes\credits.h" />
     <ClInclude Include="src\Scenes\gameover.h" />
     <ClInclude Include="src\Scenes\gameplay.h" />
+    <ClInclude Include="src\Scenes\gameplay_screen_internal.h" />
     <ClInclude Include="src\Scenes\how_to_play.h" />
     <ClInclude Include="src\Scenes\main_menu.h" />
     <ClInclude Include="src\Scenes\screen_options.h" />
