@@ -1,14 +1,12 @@
 
 
 
-![Asteroids Menu](https://github.com/user-attachments/assets/b7225487-d05e-42d9-95c4-8bbae5d02023)
+![Space-Invaders Menu](https://github.com/user-attachments/assets/f16bb4d0-f3e5-4886-bb64-b076841a1db5)
 
 
+# Space-Invaders
 
-
-# Asteroids
-
-itch.io:https://bauman190.itch.io/asteroids
+itch.io:https://bauman190.itch.io/space-invaders
 
 ## Made by: 
 
@@ -59,7 +57,7 @@ Juan Bautista Castignani
 
 Aseprite: https://dacap.itch.io/aseprite  or https://store.steampowered.com/app/431730/Aseprite/
 
-
+Gemini.ia
 
 ## Code: 
 
@@ -73,6 +71,7 @@ Raylib: https://www.raylib.com/
 
 Bosca Ceoil: https://yurisizov.itch.io/boscaceoil-blue
 
+Gemini.ia
 
 
 ## Sound Efects:
