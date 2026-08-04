@@ -32,6 +32,9 @@
     <ClCompile Include="src\Scenes\credits.cpp">
       <Filter>Scenes\Credits</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entitys\Shield.cpp">
+      <Filter>Entitys</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Entitys">
@@ -110,6 +113,9 @@
     </ClInclude>
     <ClInclude Include="src\Effects\Explosion.h">
       <Filter>Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entitys\Shield.h">
+      <Filter>Entitys</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

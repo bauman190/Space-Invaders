@@ -9,6 +9,7 @@
 #include "Game/gameManager.h"
 #include "UI/button.h"
 #include "Effects/Explosion.h"
+#include "Entitys/Shield.h"
 
 extern GM::gameManager gamemanager;
 
@@ -21,6 +22,12 @@ static Texture explosionTexture;
 static Sound explosionSound;
 
 static std::vector<Explosion> explosions;
+
+static void createShields();
+
+static void drawShields();
+
+static void colShieldBullet(std::vector<Entity::Bullet>& bullets);
 
 static void updateExplosions();
 static void drawExplosions();
@@ -200,6 +207,8 @@ static void updateGamePlay(float& enemyWallCooldown, float& enemyShootTimer)
         erasBulletsOutOfMap();
         handelLoseCondition();
         updateExplosions();
+        colShieldBullet(gamemanager.bullets);
+        colShieldBullet(gamemanager.enemysBullets);
     }
     if (gamemanager.gamePaused)
     {
@@ -227,7 +236,7 @@ static void drawGamePlay()
         Entity::drawBullet(gamemanager.enemysBullets[i]);
     }
     drawExplosions();
-
+    drawShields();
     DrawText(TextFormat("Score: %01i", gamemanager.player.score), 0, 0, 20, BLUE);
     DrawText(TextFormat("Lives: %01i", gamemanager.player.HP), 0, 20, 20, BLUE);
 
@@ -246,6 +255,7 @@ void gameplay::initGamePlay()
     gamemanager.enemys.clear();
     gamemanager.bullets.clear();
     gamemanager.enemysBullets.clear();
+    gamemanager.shields.clear();
     gamemanager.gamePaused = false;
     Entity::initPlayer(gamemanager.player);
     UI::inItButton(Play, gamemanager.screenWidth / 2, gamemanager.screenHeight * 0.6, LoadTexture("res/Play_on.png"), LoadTexture("res/PLay_off.png"));
@@ -257,6 +267,7 @@ void gameplay::initGamePlay()
     explosionSound = LoadSound("res/Explosion.wav");
 
     creatEnemys();
+    createShields();
 }
 
 static void handleEnemyShoot(float& enemyShootTimer)
@@ -377,6 +388,9 @@ void gameplay::restarGamePlay()
     gamemanager.enemys.clear();
     gamemanager.bullets.clear();
     gamemanager.enemysBullets.clear();
+    gamemanager.shields.clear();
+    creatEnemys();
+    createShields();
     gamemanager.gamePaused = false;
     Entity::initPlayer(gamemanager.player);
     UnloadMusicStream(gamemanager.music);
@@ -464,4 +478,55 @@ static void drawExplosions()
     {
         drawExplosion(explosions[i]);
     }
+}
+
+static void createShields()
+{
+    gamemanager.shields.clear();
+    const int numShields = 5;
+    float spacing = GetScreenWidth() / static_cast<float>(numShields + 1);
+
+    Entity::Shield newShield;
+
+    for (int i = 0; i < numShields; i++)
+    {
+        float x = spacing * (i + 1);
+        float y = GetScreenHeight() * 0.8f;
+
+        Entity::inItShield(newShield, x, y);
+        gamemanager.shields.push_back(newShield);
+    }
+}
+
+static void drawShields()
+{
+    for (int i = 0; i < gamemanager.shields.size(); i++)
+    {
+        Entity::drawShield(gamemanager.shields[i]);
+    }
+}
+
+static void colShieldBullet(std::vector<Entity::Bullet>& bullets)
+{
+    if (!bullets.empty() && !gamemanager.shields.empty())
+    {
+        for (int i = bullets.size() - 1; i >= 0; i--)
+        {
+            for (int j = gamemanager.shields.size() -1 ; j >= 0; j--)
+            {
+                if (collisionRecRec(bullets[i].hitBox, gamemanager.shields[j].hitbox))
+                {
+                   Entity::takeDamage(gamemanager.shields[j]);
+
+                    if (gamemanager.shields[j].hp <= 0)
+                    {
+                        gamemanager.shields.erase(gamemanager.shields.begin() + j);
+                    }
+                    bullets.erase(bullets.begin() + i);
+                    break;
+                }
+            }
+        }
+    }
+    
 }

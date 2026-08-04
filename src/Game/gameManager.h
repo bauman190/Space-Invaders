@@ -5,6 +5,7 @@
 #include "Entitys/Enemy.h"
 #include "Scenes/screen_options.h"
 #include <vector>
+#include "Entitys/Shield.h"
 
 namespace GM
 {
@@ -15,6 +16,7 @@ struct gameManager
 	std::vector <Entity::Enemy> enemys;
 	std::vector <Entity::Bullet> bullets;
 	std::vector <Entity::Bullet> enemysBullets;
+	std::vector <Entity::Shield> shields;
 
 	scenes::Screen currentScreen = scenes::MainMenu;
 	int screenWidth = 800;

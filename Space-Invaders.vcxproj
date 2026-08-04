@@ -22,6 +22,7 @@
     <ClCompile Include="src\Entitys\Bullet.cpp" />
     <ClCompile Include="src\Entitys\Enemy.cpp" />
     <ClCompile Include="src\Entitys\Player.cpp" />
+    <ClCompile Include="src\Entitys\Shield.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Scenes\credits.cpp" />
@@ -36,6 +37,7 @@
     <ClInclude Include="src\Entitys\Bullet.h" />
     <ClInclude Include="src\Entitys\Enemy.h" />
     <ClInclude Include="src\Entitys\Player.h" />
+    <ClInclude Include="src\Entitys\Shield.h" />
     <ClInclude Include="src\Game\Game.h" />
     <ClInclude Include="src\Game\gameManager.h" />
     <ClInclude Include="src\Scenes\credits.h" />
