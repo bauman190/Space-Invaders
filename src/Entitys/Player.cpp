@@ -22,9 +22,13 @@ static void moveLeft(Entity::Player& player)
 
 static void shoot(Entity::Player player)
 {
-	float x = player.hitBox.x + player.hitBox.width / 2;
-	float y = player.hitBox.y;
-	gamemanager.bullets.push_back(Entity::initBullet(x, y));
+	const int maxBullets = 15;
+	if (gamemanager.bullets.size() < maxBullets)
+	{
+		float x = player.hitBox.x + player.hitBox.width / 2;
+		float y = player.hitBox.y;
+		gamemanager.bullets.push_back(Entity::initBullet(x, y));
+	}
 }
 
 void Entity::drawPlayer(Player player)
