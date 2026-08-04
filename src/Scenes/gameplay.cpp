@@ -64,7 +64,7 @@ static void handlePause();
 
 static void creatEnemys()
 {
-    const int rows = 3;
+    const int rows = 3 + gamemanager.rowIncrease;
     const int columns = 10;
     const float spacing = 10.0f;
 
@@ -188,6 +188,11 @@ static void handleEnemyRespawn()
 {
     if (gamemanager.enemys.empty())
     {
+        int maxRowIncrease = 3;
+        if (gamemanager.rowIncrease < maxRowIncrease)
+        {
+            gamemanager.rowIncrease++;
+        }
         gamemanager.bullets.clear();
         creatEnemys();
     }
@@ -392,6 +397,8 @@ void gameplay::restarGamePlay()
     gamemanager.bullets.clear();
     gamemanager.enemysBullets.clear();
     gamemanager.shields.clear();
+    explosions.clear();
+    gamemanager.rowIncrease = 0;
     creatEnemys();
     createShields();
     gamemanager.gamePaused = false;
