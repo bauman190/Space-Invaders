@@ -64,7 +64,7 @@ static void handlePause();
 
 static void creatEnemys()
 {
-    const int rows = 3 + gamemanager.rowIncrease;
+    const int rows = 1 + gamemanager.rowIncrease;
     const int columns = 10;
     const float spacing = 10.0f;
 
@@ -188,7 +188,7 @@ static void handleEnemyRespawn()
 {
     if (gamemanager.enemys.empty())
     {
-        int maxRowIncrease = 3;
+        int maxRowIncrease = 5;
         if (gamemanager.rowIncrease < maxRowIncrease)
         {
             gamemanager.rowIncrease++;
